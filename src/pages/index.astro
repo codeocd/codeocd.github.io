@@ -1,0 +1,684 @@
+---
+import '../styles/global.css';
+import {
+  acceptedPublications,
+  about,
+  awards,
+  education,
+  experience,
+  intellectualProperty,
+  news,
+  ongoingResearch,
+  openSource,
+  publicationPresentation,
+  profile,
+  researchThemes,
+  skills,
+  collaborativePublicationTitles
+} from '../data/site';
+import publicationData from '../data/publications.json';
+
+const availableOpenSource = openSource as unknown as Array<{ href: string; name: string; language: string; description: { en: string; zh: string } }>;
+type PublicationFigure = {
+  image: string;
+  alt: string;
+  width?: number;
+  height?: number;
+};
+type DiscoveredPublication = {
+  publication: (typeof publicationData.publications)[number];
+  figure: PublicationFigure | null;
+  venueLabel: string;
+};
+
+const navItems = [
+  { id: 'about', en: 'About Me', zh: '关于我' },
+  { id: 'news', en: 'News', zh: '动态' },
+  { id: 'experience-education', en: 'Experience & Education', zh: '经历与教育' },
+  { id: 'publications', en: 'Publications', zh: '论文' },
+  { id: 'collaborative-publications', en: 'Collaborative Work', zh: '合作论文' },
+  { id: 'ongoing-research', en: 'Ongoing Research', zh: '在研工作' },
+  ...(availableOpenSource.length > 0 ? [{ id: 'opensource', en: 'Open Source', zh: '开源项目' }] : []),
+  { id: 'intellectual-property', en: 'Intellectual Property', zh: '知识产权' },
+  { id: 'skills', en: 'Skills', zh: '技能' }
+];
+
+const markAuthor = (authors: string) => authors.split(/(Haibiao Zhang)/g);
+const publicationByTitle = new Map(publicationData.publications.map((publication) => [publication.title, publication]));
+const collaborativeTitles = new Set<string>(collaborativePublicationTitles);
+const curatedPublications = publicationPresentation.flatMap((presentation) => {
+  const publication = publicationByTitle.get(presentation.title);
+  return publication ? [{
+    publication,
+    presentation,
+    figure: presentation.image ? {
+      image: presentation.image,
+      alt: presentation.imageAlt.en
+    } : null
+  }] : [];
+});
+const primaryCuratedPublications = curatedPublications
+  .filter(({ publication }) => !collaborativeTitles.has(publication.title));
+const collaborativeCuratedPublications = curatedPublications
+  .filter(({ publication }) => collaborativeTitles.has(publication.title));
+const curatedTitles = new Set<string>(publicationPresentation.map((publication) => publication.title));
+const autoDiscoveredPublications: DiscoveredPublication[] = publicationData.publications
+  .filter((publication) => !curatedTitles.has(publication.title))
+  .map((publication) => {
+    const acronym = publication.venue.match(/\(([A-Z][A-Z-]{2,})\)/)?.[1];
+    return {
+      publication,
+      figure: null,
+      venueLabel: acronym ? `${acronym} ${publication.year}` : `${publication.year}`
+    };
+  });
+const primaryAutoDiscoveredPublications = autoDiscoveredPublications
+  .filter(({ publication }) => !collaborativeTitles.has(publication.title));
+const collaborativeAutoDiscoveredPublications = autoDiscoveredPublications
+  .filter(({ publication }) => collaborativeTitles.has(publication.title));
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+---
+
+<!doctype html>
+<html lang="en" data-ui-language="en" data-cv-en={profile.links.cvEn} data-cv-zh={profile.links.cvZh} data-name-en={profile.name.en} data-name-zh={profile.name.zh}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta
+      name="description"
+      content={profile.headline.en}
+    />
+    <meta property="og:title" content={`${profile.name.en} · Academic Homepage`} />
+    <meta property="og:description" content={profile.headline.en} />
+    <meta property="og:type" content="website" />
+    {siteUrl && <meta property="og:url" content={`${siteUrl}/`} />}
+    {siteUrl && profile.portrait && <meta property="og:image" content={`${siteUrl}${profile.portrait}`} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      try {
+        const stored = localStorage.getItem('haibiao-site-language');
+        if (stored === 'zh') document.documentElement.dataset.uiLanguage = 'zh';
+      } catch {}
+    </script>
+    <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+    <title>{profile.name.en} · Academic Homepage</title>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">
+      <span data-lang="en">Skip to content</span><span data-lang="zh">跳到主要内容</span>
+    </a>
+
+    <header class="masthead" data-site-header>
+      <div class="masthead-inner">
+        <a class="site-name" href="#top" aria-label={`${profile.name.en} home`}>{profile.name.en}</a>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          {navItems.map((item) => (
+            <a href={`#${item.id}`} data-nav-link={item.id}>
+              <span data-lang="en">{item.en}</span><span data-lang="zh">{item.zh}</span>
+            </a>
+          ))}
+        </nav>
+
+        <div class="masthead-actions">
+          <div class="language-switch" role="group" aria-label="Language selection">
+            <button type="button" data-language-button="en" aria-pressed="true">EN</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" data-language-button="zh" aria-pressed="false">中文</button>
+          </div>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+            <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+          {navItems.map((item) => (
+            <a href={`#${item.id}`} data-mobile-nav-link>
+              <span data-lang="en">{item.en}</span><span data-lang="zh">{item.zh}</span>
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main class="academic-shell" id="main-content">
+      <aside class="academic-sidebar" aria-label="Academic profile">
+        <div class="profile-card reveal">
+          {profile.portrait ? (
+            <img class="profile-avatar" src={profile.portrait} alt={`Portrait of ${profile.name.en}`} width="420" height="420" fetchpriority="high" />
+          ) : (
+            <div class="profile-avatar profile-avatar-placeholder" role="img" aria-label={`${profile.name.en} initials`}>HZ</div>
+          )}
+          <div class="profile-identity">
+            <h2><span data-lang="en">{profile.name.en}</span><span data-lang="zh">{profile.name.zh}</span></h2>
+            <p class="profile-role"><span data-lang="en">{profile.role.en}</span><span data-lang="zh">{profile.role.zh}</span></p>
+            <p class="profile-affiliation">
+              <span data-lang="en">University of Science and Technology of China<br />USTC</span>
+              <span data-lang="zh">中国科学技术大学<br />USTC</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="profile-details reveal">
+          <p class="profile-bio">
+            <span data-lang="en">{profile.headline.en}</span>
+            <span data-lang="zh">{profile.headline.zh}</span>
+          </p>
+
+          <ul class="profile-links">
+            <li>
+              <span class="profile-icon" aria-hidden="true">⌖</span>
+              <span data-lang="en">{profile.location.en}</span><span data-lang="zh">{profile.location.zh}</span>
+            </li>
+            <li>
+              <span class="profile-icon" aria-hidden="true">✉</span>
+              <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            </li>
+            {profile.links.scholar && <li><span class="profile-icon" aria-hidden="true">G</span><a href={profile.links.scholar} target="_blank" rel="noreferrer">Google Scholar</a></li>}
+            {profile.links.github && <li><span class="profile-icon" aria-hidden="true">GH</span><a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a></li>}
+            <li>
+              <span class="profile-icon" aria-hidden="true">↓</span>
+              <a href={profile.links.cvEn} data-cv-link>
+                <span data-lang="en">Download CV</span><span data-lang="zh">下载简历</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="research-interests">
+            <h3><span data-lang="en">Research Interests</span><span data-lang="zh">研究方向</span></h3>
+            <ul>
+              {researchThemes.map((theme) => <li><span data-lang="en">{theme.title.en}</span><span data-lang="zh">{theme.title.zh}</span></li>)}
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <article class="academic-main">
+        <section class="content-section about-section reveal" id="about" aria-labelledby="about-title">
+          <h1 id="about-title"><span class="heading-icon" aria-hidden="true">👋</span><span data-lang="en">About Me</span><span data-lang="zh">关于我</span></h1>
+          <p><span data-lang="en">{about.body.en}</span><span data-lang="zh">{about.body.zh}</span></p>
+          <p class="profile-advisor"><span data-lang="en">{about.advisor.en}</span><span data-lang="zh">{about.advisor.zh}</span>{profile.links.supervisor && <a href={profile.links.supervisor} target="_blank" rel="noreferrer"> ↗</a>}</p>
+          <p><span data-lang="en">{profile.statement.en}</span><span data-lang="zh">{profile.statement.zh}</span></p>
+
+          <div class="interest-strip" aria-label="Research themes">
+            {researchThemes.map((theme) => (
+              <div>
+                <span>{theme.index}</span>
+                <p><span data-lang="en">{theme.title.en}</span><span data-lang="zh">{theme.title.zh}</span><small><span data-lang="en">{theme.description.en}</span><span data-lang="zh">{theme.description.zh}</span></small></p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="content-section reveal" id="news" aria-labelledby="news-title">
+          <h2 id="news-title"><span class="heading-icon" aria-hidden="true">🔥</span><span data-lang="en">News</span><span data-lang="zh">近期动态</span></h2>
+          <ul class="news-list">
+            {news.map((item) => (
+              <li>
+                <time>{item.date}</time>
+                {item.href ? <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined}>
+                  <span data-lang="en">{item.text.en}</span><span data-lang="zh">{item.text.zh}</span>
+                </a> : <span><span data-lang="en">{item.text.en}</span><span data-lang="zh">{item.text.zh}</span></span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="content-section" id="experience-education" aria-labelledby="journey-title">
+          <h2 id="journey-title" class="reveal"><span class="heading-icon" aria-hidden="true">🧭</span><span data-lang="en">Experience & Education</span><span data-lang="zh">工作与教育经历</span></h2>
+
+          <h3 class="subsection-title reveal"><span data-lang="en">Education</span><span data-lang="zh">教育经历</span></h3>
+          <div class="timeline-list education-list">
+            {education.map((item) => (
+              <article class="timeline-item reveal">
+                <div class="institution-logos">
+                  {item.logo ? <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" /> : <span class="institution-logo-placeholder" aria-hidden="true">{item.logoAlt.slice(0, 2)}</span>}
+                  {item.secondaryLogo && <img src={item.secondaryLogo} alt={item.secondaryLogoAlt ?? ''} width="76" height="76" loading="lazy" />}
+                </div>
+                <div>
+                  <time>{item.period}</time>
+                  <h4>{item.href ? <a href={item.href} target="_blank" rel="noreferrer"><span data-lang="en">{item.institution?.en}</span><span data-lang="zh">{item.institution?.zh}</span></a> : <><span data-lang="en">{item.institution?.en}</span><span data-lang="zh">{item.institution?.zh}</span></>}</h4>
+                  {item.degree && <p class="timeline-role"><span data-lang="en">{item.degree.en}</span><span data-lang="zh">{item.degree.zh}</span></p>}
+                  {item.note && <p><span data-lang="en">{item.note.en}</span><span data-lang="zh">{item.note.zh}</span></p>}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <h3 class="subsection-title reveal"><span data-lang="en">Industry Experience</span><span data-lang="zh">工作经历</span></h3>
+          <div class="timeline-list industry-list">
+            {experience.map((item) => (
+              <article class="timeline-item reveal">
+                <div class="institution-logos">
+                  {item.logo ? <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" /> : <span class="institution-logo-placeholder" aria-hidden="true">{item.logoAlt.slice(0, 2)}</span>}
+                </div>
+                <div>
+                  <time>{item.period}</time>
+                  <h4>
+                    {item.href?.startsWith('http')
+                      ? <a href={item.href} target="_blank" rel="noreferrer"><span data-lang="en">{item.organization?.en}</span><span data-lang="zh">{item.organization?.zh}</span></a>
+                      : <><span data-lang="en">{item.organization?.en}</span><span data-lang="zh">{item.organization?.zh}</span></>}
+                  </h4>
+                  {item.role && <p class="timeline-role"><span data-lang="en">{item.role.en}</span><span data-lang="zh">{item.role.zh}</span></p>}
+                  {item.description && <p><span data-lang="en">{item.description.en}</span><span data-lang="zh">{item.description.zh}</span></p>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="content-section" id="publications" aria-labelledby="publications-title">
+          <div class="section-heading reveal">
+            <h2 id="publications-title"><span class="heading-icon" aria-hidden="true">📝</span><span data-lang="en">Publications</span><span data-lang="zh">学术论文</span></h2>
+            {profile.links.scholar && <a href={profile.links.scholar} target="_blank" rel="noreferrer">
+              <span data-lang="en">Google Scholar profile</span><span data-lang="zh">Google Scholar 主页</span> ↗
+            </a>}
+          </div>
+
+          {acceptedPublications.map((publication) => (
+            <article class="paper-box publication-paper accepted-paper reveal" data-publication-title={publication.title}>
+              {publication.image && <button
+                class="paper-figure"
+                type="button"
+                data-figure-src={publication.image}
+                data-figure-alt-en={publication.imageAlt.en}
+                data-figure-alt-zh={publication.imageAlt.zh}
+                aria-label={`Enlarge ${publication.shortName} framework figure`}
+              >
+                <img src={publication.image} alt={publication.imageAlt.en} loading="lazy" />
+              </button>}
+              <div class="paper-info">
+                <span class="venue-badge">{publication.venueLabel}</span>
+                <h3>{publication.title}</h3>
+                <p class="paper-authors">
+                  {markAuthor(publication.authors).map((part) => part === 'Haibiao Zhang' ? <strong>{part}</strong> : part)}
+                </p>
+                <p class="publication-venue">{publication.venue}</p>
+                <p><span data-lang="en">{publication.description.en}</span><span data-lang="zh">{publication.description.zh}</span></p>
+                <div class="paper-links">
+                  {publication.preprintUrl ? (
+                    <a href={publication.preprintUrl} target="_blank" rel="noreferrer">
+                      [<span data-lang="en">Preprint</span><span data-lang="zh">预印本</span>]
+                    </a>
+                  ) : (
+                    <span class="paper-link-placeholder">
+                      [<span data-lang="en">Preprint coming soon</span><span data-lang="zh">预印本即将发布</span>]
+                    </span>
+                  )}
+                  {publication.codeUrl && <a href={publication.codeUrl} target="_blank" rel="noreferrer">
+                    [<span data-lang="en">Code</span><span data-lang="zh">代码</span>]
+                  </a>}
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {primaryCuratedPublications.map(({ publication, presentation, figure }) => (
+            <article class:list={['paper-box', 'publication-paper', 'reveal', !figure && 'no-figure']} data-publication-title={publication.title}>
+              {figure && <button
+                class="paper-figure"
+                type="button"
+                data-figure-src={figure.image}
+                data-figure-alt-en={figure.alt}
+                data-figure-alt-zh={presentation.imageAlt.zh}
+                aria-label={`Enlarge ${presentation.shortName} framework figure`}
+              >
+                <img src={figure.image} alt={figure.alt} loading="lazy" />
+              </button>}
+              <div class="paper-info">
+                <span class="venue-badge">{presentation.venueLabel}</span>
+                <h3>{publication.url ? <a href={publication.url} target="_blank" rel="noreferrer">{publication.title}</a> : publication.title}</h3>
+                <p class="paper-authors">
+                  {markAuthor(publication.authors).map((part) => part === 'Haibiao Zhang' ? <strong>{part}</strong> : part)}
+                </p>
+                <p class="publication-venue">{publication.venue}</p>
+                {presentation.description && (
+                  <p><span data-lang="en">{presentation.description.en}</span><span data-lang="zh">{presentation.description.zh}</span></p>
+                )}
+                <div class="paper-links">
+                  {publication.url && <a href={publication.url} target="_blank" rel="noreferrer">
+                    [<span data-lang="en">Paper</span><span data-lang="zh">论文</span>]
+                  </a>}
+                  {presentation.extraLinks.map((link) => (
+                    <a href={link.href} target="_blank" rel="noreferrer">
+                      [<span data-lang="en">{link.label.en}</span><span data-lang="zh">{link.label.zh}</span>]
+                    </a>
+                  ))}
+                  {publication.citations !== null && (
+                    <span class="publication-citation">
+                      <span data-lang="en">Cited by {publication.citations}</span><span data-lang="zh">引用 {publication.citations}</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {primaryAutoDiscoveredPublications.map(({ publication, figure, venueLabel }) => (
+            <article class:list={['paper-box', 'publication-paper', 'reveal', !figure && 'no-figure']} data-publication-title={publication.title}>
+              {figure && (
+                <button
+                  class="paper-figure"
+                  type="button"
+                  data-figure-src={figure.image}
+                  data-figure-alt-en={figure.alt}
+                  data-figure-alt-zh={`${publication.title} 框架图`}
+                  aria-label={`Enlarge ${publication.title} framework figure`}
+                >
+                  <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
+                </button>
+              )}
+              <div class="paper-info">
+                <span class="venue-badge">{venueLabel}</span>
+                <h3>{publication.url ? <a href={publication.url} target="_blank" rel="noreferrer">{publication.title}</a> : publication.title}</h3>
+                <p class="paper-authors">
+                  {markAuthor(publication.authors).map((part) => part === 'Haibiao Zhang' ? <strong>{part}</strong> : part)}
+                </p>
+                <p class="publication-venue">{publication.venue}</p>
+                <div class="paper-links">
+                  {publication.url && <a href={publication.url} target="_blank" rel="noreferrer">
+                    [<span data-lang="en">Paper</span><span data-lang="zh">论文</span>]
+                  </a>}
+                  {publication.citations !== null && (
+                    <span class="publication-citation">
+                      <span data-lang="en">Cited by {publication.citations}</span><span data-lang="zh">引用 {publication.citations}</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section class="content-section" id="collaborative-publications" aria-labelledby="collaborative-title">
+          <div class="section-heading reveal">
+            <div>
+              <h2 id="collaborative-title"><span class="heading-icon" aria-hidden="true">🤝</span><span data-lang="en">Collaborative Publications</span><span data-lang="zh">合作论文</span></h2>
+              <p class="section-note">
+                <span data-lang="en">Research contributions developed through interdisciplinary collaboration.</span>
+                <span data-lang="zh">跨方向合作完成的研究成果。</span>
+              </p>
+            </div>
+          </div>
+
+          {collaborativeCuratedPublications.map(({ publication, presentation, figure }) => (
+            <article class:list={['paper-box', 'publication-paper', 'reveal', !figure && 'no-figure']} data-publication-title={publication.title}>
+              {figure && <button
+                class="paper-figure"
+                type="button"
+                data-figure-src={figure.image}
+                data-figure-alt-en={figure.alt}
+                data-figure-alt-zh={presentation.imageAlt.zh}
+                aria-label={`Enlarge ${presentation.shortName} framework figure`}
+              >
+                <img src={figure.image} alt={figure.alt} loading="lazy" />
+              </button>}
+              <div class="paper-info">
+                <span class="venue-badge">{presentation.venueLabel}</span>
+                <h3>{publication.url ? <a href={publication.url} target="_blank" rel="noreferrer">{publication.title}</a> : publication.title}</h3>
+                <p class="paper-authors">
+                  {markAuthor(publication.authors).map((part) => part === 'Haibiao Zhang' ? <strong>{part}</strong> : part)}
+                </p>
+                <p class="publication-venue">{publication.venue}</p>
+                {presentation.description && (
+                  <p><span data-lang="en">{presentation.description.en}</span><span data-lang="zh">{presentation.description.zh}</span></p>
+                )}
+                <div class="paper-links">
+                  {publication.url && <a href={publication.url} target="_blank" rel="noreferrer">
+                    [<span data-lang="en">Paper</span><span data-lang="zh">论文</span>]
+                  </a>}
+                  {presentation.extraLinks.map((link) => (
+                    <a href={link.href} target="_blank" rel="noreferrer">
+                      [<span data-lang="en">{link.label.en}</span><span data-lang="zh">{link.label.zh}</span>]
+                    </a>
+                  ))}
+                  {publication.citations !== null && (
+                    <span class="publication-citation">
+                      <span data-lang="en">Cited by {publication.citations}</span><span data-lang="zh">引用 {publication.citations}</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {collaborativeAutoDiscoveredPublications.map(({ publication, figure, venueLabel }) => (
+            <article class:list={['paper-box', 'publication-paper', 'reveal', !figure && 'no-figure']} data-publication-title={publication.title}>
+              {figure && (
+                <button
+                  class="paper-figure"
+                  type="button"
+                  data-figure-src={figure.image}
+                  data-figure-alt-en={figure.alt}
+                  data-figure-alt-zh={`${publication.title} 框架图`}
+                  aria-label={`Enlarge ${publication.title} framework figure`}
+                >
+                  <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
+                </button>
+              )}
+              <div class="paper-info">
+                <span class="venue-badge">{venueLabel}</span>
+                <h3>{publication.url ? <a href={publication.url} target="_blank" rel="noreferrer">{publication.title}</a> : publication.title}</h3>
+                <p class="paper-authors">
+                  {markAuthor(publication.authors).map((part) => part === 'Haibiao Zhang' ? <strong>{part}</strong> : part)}
+                </p>
+                <p class="publication-venue">{publication.venue}</p>
+                <div class="paper-links">
+                  {publication.url && <a href={publication.url} target="_blank" rel="noreferrer">
+                    [<span data-lang="en">Paper</span><span data-lang="zh">论文</span>]
+                  </a>}
+                  {publication.citations !== null && (
+                    <span class="publication-citation">
+                      <span data-lang="en">Cited by {publication.citations}</span><span data-lang="zh">引用 {publication.citations}</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section class="content-section" id="ongoing-research" aria-labelledby="ongoing-title">
+          <div class="section-heading reveal">
+            <div>
+              <h2 id="ongoing-title"><span class="heading-icon" aria-hidden="true">🔬</span><span data-lang="en">Ongoing Research</span><span data-lang="zh">在研工作</span></h2>
+              <p class="section-note">
+                <span data-lang="en">Submitted and early-stage work is intentionally introduced only at a high level.</span>
+                <span data-lang="zh">为避免泄露尚未发表的研究思路，此处仅提供概括性介绍。</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="ongoing-list">
+            {ongoingResearch.map((paper) => (
+              <article class:list={['ongoing-item', 'research-box', 'reveal', !paper.image && 'no-figure']}>
+                {paper.image && <button
+                  class="paper-figure"
+                  type="button"
+                  data-figure-src={paper.image}
+                  data-figure-alt-en={`${paper.title} framework figure`}
+                  data-figure-alt-zh={`${paper.title} 框架图`}
+                  aria-label={`Enlarge ${paper.title} framework figure`}
+                >
+                  <img src={paper.image} alt={`${paper.title} framework figure`} loading="lazy" />
+                </button>}
+                <div class="paper-info">
+                  <span class="venue-badge muted"><span data-lang="en">{paper.status.en}</span><span data-lang="zh">{paper.status.zh}</span></span>
+                  <h3>{paper.title}</h3>
+                  <p><span data-lang="en">{paper.description.en}</span><span data-lang="zh">{paper.description.zh}</span></p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {availableOpenSource.length > 0 && <section class="content-section" id="opensource" aria-labelledby="opensource-title">
+          <h2 id="opensource-title" class="reveal"><span class="heading-icon" aria-hidden="true">💻</span><span data-lang="en">Open Source</span><span data-lang="zh">开源项目</span></h2>
+          <div class="project-list">
+            {availableOpenSource.map((project) => (
+              <a class="project-item reveal" href={project.href} target="_blank" rel="noreferrer">
+                <div>
+                  <h3>{project.name}</h3>
+                  <p><span data-lang="en">{project.description.en}</span><span data-lang="zh">{project.description.zh}</span></p>
+                </div>
+                <span><small>{project.language}</small> ↗</span>
+              </a>
+            ))}
+          </div>
+        </section>}
+
+        <section class="content-section" id="intellectual-property" aria-labelledby="ip-title">
+          <h2 id="ip-title" class="reveal"><span class="heading-icon" aria-hidden="true">📜</span><span data-lang="en">Intellectual Property</span><span data-lang="zh">知识产权</span></h2>
+          <p class="ip-summary reveal">
+            <span data-lang="en">{intellectualProperty.filter((item) => item.kind === 'patent').length} invention patents and {intellectualProperty.filter((item) => item.kind === 'copyright').length} software copyrights.</span>
+            <span data-lang="zh">{intellectualProperty.filter((item) => item.kind === 'patent').length} 项发明专利与 {intellectualProperty.filter((item) => item.kind === 'copyright').length} 项软件著作权。</span>
+          </p>
+          <div class="ip-list">
+            {intellectualProperty.map((item) => (
+              <article class="ip-item reveal" data-ip-key={item.key}>
+                {item.image && <button
+                  class="ip-document-preview"
+                  type="button"
+                  data-figure-src={item.image}
+                  data-figure-alt-en={item.imageAlt.en}
+                  data-figure-alt-zh={item.imageAlt.zh}
+                  aria-label={`Enlarge ${item.number} document preview`}
+                >
+                  <img src={item.image} alt={item.imageAlt.en} loading="lazy" />
+                </button>}
+                <div class="ip-info">
+                  <div class="ip-meta">
+                    <span class="ip-type"><span data-lang="en">{item.type.en}</span><span data-lang="zh">{item.type.zh}</span></span>
+                    <time><span data-lang="en">{item.year.en}</span><span data-lang="zh">{item.year.zh}</span></time>
+                  </div>
+                  <h3><span data-lang="en">{item.title.en}</span><span data-lang="zh">{item.title.zh}</span></h3>
+                  <p class="ip-number">
+                    <span data-lang="en">{item.kind === 'patent' ? 'Publication No.' : 'Registration No.'}: {item.number}</span>
+                    <span data-lang="zh">{item.kind === 'patent' ? '申请公布号' : '登记号'}：{item.number}</span>
+                  </p>
+                  <p class="ip-detail"><span data-lang="en">{item.detail.en}</span><span data-lang="zh">{item.detail.zh}</span></p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="content-section" id="skills" aria-labelledby="skills-title">
+          <h2 id="skills-title" class="reveal"><span class="heading-icon" aria-hidden="true">🧰</span><span data-lang="en">Skills</span><span data-lang="zh">技能</span></h2>
+          <div class="skills-list">
+            {skills.map((skill) => (
+              <article class="skill-item reveal">
+                <h3><span data-lang="en">{skill.label.en}</span><span data-lang="zh">{skill.label.zh}</span></h3>
+                <p><span data-lang="en">{skill.value.en}</span><span data-lang="zh">{skill.value.zh}</span></p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="content-section" id="awards" aria-labelledby="awards-title">
+          <h2 id="awards-title" class="reveal"><span class="heading-icon" aria-hidden="true">🏆</span><span data-lang="en">Selected Awards</span><span data-lang="zh">部分荣誉</span></h2>
+          <ul class="award-list">
+            {awards.map((award) => (
+              <li class="reveal">
+                <time>{award.year}</time>
+                <span><span data-lang="en">{award.title.en}</span><span data-lang="zh">{award.title.zh}</span></span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} {profile.name.en} · <span data-lang="en">Academic profile</span><span data-lang="zh">学术主页</span></p>
+      <a href="#top"><span data-lang="en">Back to top</span><span data-lang="zh">返回顶部</span> ↑</a>
+    </footer>
+
+    <dialog class="figure-dialog" id="figure-dialog" aria-labelledby="figure-dialog-caption">
+      <button class="dialog-close" type="button" data-dialog-close aria-label="Close figure">×</button>
+      <div class="dialog-frame"><img src="" alt="" data-dialog-image /></div>
+      <p id="figure-dialog-caption" data-dialog-caption></p>
+    </dialog>
+
+    <script>
+      const root = document.documentElement;
+      const languageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-language-button]'));
+      const cvLink = document.querySelector<HTMLAnchorElement>('[data-cv-link]');
+      const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu');
+      const cvUrls = { en: root.dataset.cvEn ?? '', zh: root.dataset.cvZh ?? '' };
+
+      const setLanguage = (language: 'en' | 'zh') => {
+        root.dataset.uiLanguage = language;
+        root.lang = language === 'zh' ? 'zh-CN' : 'en';
+        const nameEn = root.dataset.nameEn ?? 'Academic Homepage';
+        const nameZh = root.dataset.nameZh ?? nameEn;
+        document.title = language === 'zh' ? `${nameZh} · 学术主页` : `${nameEn} · Academic Homepage`;
+        languageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.languageButton === language)));
+        if (cvLink) cvLink.href = cvUrls[language];
+        if (menuToggle) menuToggle.setAttribute('aria-label', language === 'zh' ? '菜单' : 'Menu');
+        try { localStorage.setItem('haibiao-site-language', language); } catch {}
+      };
+
+      setLanguage(root.dataset.uiLanguage === 'zh' ? 'zh' : 'en');
+      languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.languageButton === 'zh' ? 'zh' : 'en')));
+
+      const header = document.querySelector<HTMLElement>('[data-site-header]');
+      const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 12);
+      updateHeader();
+      window.addEventListener('scroll', updateHeader, { passive: true });
+
+      const closeMenu = () => {
+        if (!menuToggle || !mobileMenu) return;
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.hidden = true;
+      };
+      menuToggle?.addEventListener('click', () => {
+        if (!mobileMenu) return;
+        const open = menuToggle.getAttribute('aria-expanded') !== 'true';
+        menuToggle.setAttribute('aria-expanded', String(open));
+        mobileMenu.hidden = !open;
+      });
+      document.querySelectorAll('[data-mobile-nav-link]').forEach((link) => link.addEventListener('click', closeMenu));
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+      document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+
+      const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+      const navObserver = new IntersectionObserver((entries) => {
+        const active = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!active) return;
+        navLinks.forEach((link) => link.classList.toggle('is-active', link.dataset.navLink === active.target.id));
+      }, { threshold: [0.1, 0.25], rootMargin: '-12% 0px -68% 0px' });
+      navLinks.forEach((link) => {
+        const section = document.getElementById(link.dataset.navLink ?? '');
+        if (section) navObserver.observe(section);
+      });
+
+      const dialog = document.querySelector<HTMLDialogElement>('#figure-dialog');
+      const dialogImage = dialog?.querySelector<HTMLImageElement>('[data-dialog-image]');
+      const dialogCaption = dialog?.querySelector<HTMLElement>('[data-dialog-caption]');
+      document.querySelectorAll<HTMLButtonElement>('[data-figure-src]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (!dialog || !dialogImage || !dialogCaption) return;
+          const language = root.dataset.uiLanguage === 'zh' ? 'zh' : 'en';
+          const alt = language === 'zh' ? button.dataset.figureAltZh : button.dataset.figureAltEn;
+          dialogImage.src = button.dataset.figureSrc ?? '';
+          dialogImage.alt = alt ?? '';
+          dialogCaption.textContent = alt ?? '';
+          dialog.showModal();
+        });
+      });
+      dialog?.querySelector('[data-dialog-close]')?.addEventListener('click', () => dialog.close());
+      dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    </script>
+  </body>
+</html>

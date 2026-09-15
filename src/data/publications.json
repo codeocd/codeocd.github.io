@@ -1,0 +1,39 @@
+{
+  "scholarId": "",
+  "updatedAt": "2026-09-09T00:00:00Z",
+  "source": "manual",
+  "publications": [
+    {
+      "title": "Data-driven fault diagnosis method for abnormal RF oscillation of gyrotrons",
+      "authors": "Haibiao Zhang, Zege Wu, Huaichuan Hu, Xiaojie Wang",
+      "venue": "AIP Advances 14(4), 045320, 2024",
+      "year": 2024,
+      "url": "https://doi.org/10.1063/5.0195400",
+      "citations": null
+    },
+    {
+      "title": "Robust learning-based fault prediction method for gyrotron system",
+      "authors": "Chen Wu, Haibiao Zhang, Haoming Chang, Jingping She, Xiaojie Wang",
+      "venue": "AIP Advances 15(3), 035150, 2025",
+      "year": 2025,
+      "url": "https://doi.org/10.1063/5.0257521",
+      "citations": null
+    },
+    {
+      "title": "Simulation analysis of the motion accuracy of the ECRH launcher steering mechanism based on ADAMS",
+      "authors": "Xiaoguang Zhang, Nengtao Zhou, Haibiao Zhang, Dingzhen Li, Yu Hua, Chao Xu, Chao Zhang, Ming Gao, Xiaojie Wang, Yunying Tang",
+      "venue": "Fusion Engineering and Design 211, 114774, 2025",
+      "year": 2025,
+      "url": "https://doi.org/10.1016/j.fusengdes.2024.114774",
+      "citations": null
+    },
+    {
+      "title": "Investigation of electron cyclotron wave absorption and current drive in CFEDR conventional H-mode scenario",
+      "authors": "Yuanyuan Kuang, Hanlin Wang, Ming Gao, Chao Xu, Haibiao Zhang, Yaopeng Dai, Yunying Tang, Xiaojie Wang",
+      "venue": "Plasma Science and Technology 27(10), 104003, 2025",
+      "year": 2025,
+      "url": "https://doi.org/10.1088/2058-6272/ade423",
+      "citations": null
+    }
+  ]
+}

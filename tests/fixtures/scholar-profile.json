@@ -1,0 +1,23 @@
+{
+  "publications": [
+    {
+      "bib": {
+        "title": "A Newer Scholar Work",
+        "author": ["Haibiao Zhang", "Test Collaborator"],
+        "pub_year": "2026",
+        "citation": "Example Conference"
+      },
+      "num_citations": 3,
+      "pub_url": "https://example.org/newer"
+    },
+    {
+      "bib": {
+        "title": "An Earlier Scholar Work",
+        "author": "Test Collaborator and Haibiao Zhang",
+        "pub_year": "2024",
+        "journal": "Example Journal"
+      },
+      "num_citations": "11"
+    }
+  ]
+}
