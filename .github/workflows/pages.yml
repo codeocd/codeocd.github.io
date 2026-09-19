@@ -35,17 +35,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build the static site
-        run: |
-          npm run test:content
-          python3 -m unittest discover --start-directory tests --pattern 'test_scholar_sync.py'
-          npm run build
-
       - name: Install the browser used by end-to-end tests
         run: npx playwright install --with-deps chromium
 
-      - name: Run end-to-end tests
-        run: npm run test:e2e
+      - name: Run the complete verification gate
+        run: npm run test:all
 
       - name: Upload the Pages artifact
         uses: actions/upload-pages-artifact@v4
