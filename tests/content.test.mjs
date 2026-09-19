@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { readFile, stat } from 'node:fs/promises';
+import { access, readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
@@ -10,6 +10,23 @@ const execFileAsync = promisify(execFile);
 const read = (path) => readFile(new URL(path, root), 'utf8');
 
 const requiredAssets = [
+  'public/images/profile/haibiao-zhang.jpg',
+  'public/images/contact/wechat-haibiao-zhang.png',
+  'public/images/publications/rf-oscillation-diagnosis.jpg',
+  'public/images/publications/robust-fault-prediction.png',
+  'public/images/publications/ecrh-launcher.png',
+  'public/images/publications/cfedr-eccd.png',
+  'public/images/publications/twcs.png',
+  'public/images/ip/cn120029768b.png',
+  'public/images/ip/cn121619724b.png',
+  'public/images/ip/2025sr1824848.png',
+  'public/images/ip/2020sr0059618.png',
+  'public/images/institutions/ustc.png',
+  'public/images/institutions/swfu.png',
+  'public/images/institutions/ipp-cas.png'
+];
+
+const forbiddenPublicAssets = [
   'public/cv/haibiao-zhang-en.pdf',
   'public/cv/haibiao-zhang-zh.pdf'
 ];
@@ -21,7 +38,7 @@ const publishedTitles = [
   'Investigation of electron cyclotron wave absorption and current drive in CFEDR conventional H-mode scenario'
 ];
 
-test('current CV assets exist and are non-empty', async () => {
+test('approved public assets exist and are non-empty', async () => {
   for (const asset of requiredAssets) {
     const details = await stat(new URL(asset, root));
     assert.ok(details.isFile(), `${asset} must be a file`);
@@ -29,10 +46,16 @@ test('current CV assets exist and are non-empty', async () => {
   }
 });
 
-test('current CV assets are tracked for deployment', async () => {
+test('approved public assets are tracked for deployment', async () => {
   await execFileAsync('git', ['ls-files', '--error-unmatch', '--', ...requiredAssets], {
     cwd: fileURLToPath(root)
   });
+});
+
+test('downloadable CV assets are absent from deployment', async () => {
+  for (const asset of forbiddenPublicAssets) {
+    await assert.rejects(access(new URL(asset, root)));
+  }
 });
 
 test('publication cache contains only the resume-backed published papers', async () => {
@@ -55,10 +78,20 @@ test('site data matches the current academic identity and resume outputs', async
   assert.match(site, /University of Science and Technology of China/);
   assert.match(site, /gyrotron/);
   assert.match(site, /Trajectory-Witness Conformal Surrogate/);
+  assert.match(site, /https:\/\/github\.com\/codeocd/);
+  assert.match(site, /_liHsuEAAAAJ/);
+  assert.match(site, /t20200907_365792\.html/);
+  assert.match(site, /Researcher Xiaojie Wang/);
+  assert.match(site, /zhang-haichao\/senpai-skill/);
+  assert.match(site, /Core Contributor/);
+  assert.match(site, /2026-03-10/);
+  assert.match(site, /2026-03-31/);
+  assert.match(site, /2025-09-19/);
+  assert.match(site, /2020-01-13/);
   for (const identifier of ['CN 120029768 B', 'CN 121619724 B', '2025SR1824848', '2020SR0059618']) {
     assert.match(site, new RegExp(identifier.replaceAll(' ', '\\s*')));
   }
-  assert.doesNotMatch(site, /Haichao Zhang|Xi'an Jiaotong-Liverpool|zRvnGK0AAAAJ|Jia Wang/);
+  assert.doesNotMatch(site, /Haichao Zhang|Xi'an Jiaotong-Liverpool|zRvnGK0AAAAJ|Jia Wang|Prof\. Xiaojie Wang|22,000|50%|CRAFT/);
 });
 
 test('page uses data-driven identity and safe optional links', async () => {
@@ -68,7 +101,9 @@ test('page uses data-driven identity and safe optional links', async () => {
   assert.match(page, /profile\.portrait \?/);
   assert.match(page, /profile\.links\.github &&/);
   assert.match(page, /profile\.links\.scholar &&/);
+  assert.match(page, /data-modal-open/);
   assert.match(page, /markAuthor/);
+  assert.doesNotMatch(page, /Download CV|下载简历|data-cv-link/);
   assert.doesNotMatch(page, /Haichao Zhang/);
   assert.doesNotMatch(page, /Xi'an Jiaotong-Liverpool/);
   assert.doesNotMatch(page, /zhc@liverpool\.ac\.uk/);
@@ -86,24 +121,20 @@ test('page renders publications, collaborative work, ongoing work, and intellect
   assert.match(site, /Fault Prediction of Gyrotron Operating Parameters/);
 });
 
-test('optional figures and empty open-source data do not create broken markup', async () => {
+test('confirmed figures and open-source project render without placeholders', async () => {
   const page = await read('src/pages/index.astro');
   assert.match(page, /figure &&/);
   assert.match(page, /paper\.image &&/);
   assert.match(page, /availableOpenSource\.length/);
   assert.match(page, /intellectualProperty[\s\S]*image/);
+  assert.doesNotMatch(page, /profile-avatar-placeholder|institution-logo-placeholder|paper-link-placeholder/);
 });
 
-test('scholar automation is disabled until a verified profile id is supplied', async () => {
-  const workflow = await read('.github/workflows/scholar-sync.yml');
-  const updater = await read('scripts/update_scholar.py');
-  assert.doesNotMatch(workflow, /zRvnGK0AAAAJ/);
-  assert.match(workflow, /SCHOLAR_ID/);
-  assert.match(workflow, /skip.*Scholar|Scholar.*skip/i);
-  assert.match(updater, /DEFAULT_SCHOLAR_ID\s*=\s*["']{2}/);
+test('scholar automation is not deployed', async () => {
+  await assert.rejects(access(new URL('.github/workflows/scholar-sync.yml', root)));
 });
 
-test('documentation names the current person and records pending confirmations', async () => {
+test('documentation names the current person and confirmed public services', async () => {
   const readme = await read('README.md');
   assert.match(readme, /Haibiao Zhang/);
   assert.match(readme, /gyrotron|fusion/i);
@@ -116,6 +147,8 @@ test('public source does not expose private contact data or old template identit
   const source = (await Promise.all(files.map(read))).join('\n');
   assert.doesNotMatch(source, /15388581962/);
   assert.doesNotMatch(source, /No\.96 Jinzhai Road/i);
+  assert.doesNotMatch(source, /金寨路\s*96\s*号/i);
+  assert.doesNotMatch(source, /22,000|approximately\s+50%|降低约\s*50%|CRAFT/i);
   assert.doesNotMatch(source, /zhc@liverpool\.ac\.uk/i);
   assert.doesNotMatch(source, /Haichao Zhang|XJTLU|Xi'an Jiaotong-Liverpool/);
   assert.match(source, /haibiaozhang@mail\.ustc\.edu\.cn/i);
@@ -137,10 +170,12 @@ test('public deployment does not include unconfirmed template identity or legacy
     cwd: fileURLToPath(root)
   });
   const paths = `${publicFiles.stdout}\n${tracked.stdout}`;
-  assert.doesNotMatch(paths, /haichao-zhang|portrait-haichao|public[\\/]legacy|images[\\/]papers|intellectual-property/i);
+  assert.doesNotMatch(paths, /haichao-zhang|portrait-haichao|public[\\/]legacy/i);
 
   const config = await read('astro.config.mjs');
   const page = await read('src/pages/index.astro');
   const readme = await read('README.md');
-  assert.doesNotMatch(`${config}\n${page}\n${readme}`, /codeocd\.github\.io|zhang-haichao\.github\.io|Haichao-Zhang-academic-homepage/i);
+  assert.match(config, /site:\s*'https:\/\/codeocd\.github\.io'/);
+  assert.match(readme, /https:\/\/codeocd\.github\.io/);
+  assert.doesNotMatch(`${config}\n${page}\n${readme}`, /zhang-haichao\.github\.io|Haichao-Zhang-academic-homepage/i);
 });
