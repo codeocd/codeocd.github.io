@@ -1,0 +1,120 @@
+{
+  "source_doc": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md",
+  "csv": "2026-09-20_00-00-00-haibiao-homepage.csv",
+  "execution_scope": "approved design document in full",
+  "claim_coverage": {
+    "covered": 12,
+    "total": 12,
+    "status": "pending"
+  },
+  "claims": [
+    {
+      "claim_id": "CLAIM-001",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:9",
+      "promise": "The production site contains only Haibiao Zhang's bilingual academic profile and excludes template-author content.",
+      "covered_by": ["SPEC-01", "SPEC-05", "SPEC-07"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-002",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:24",
+      "promise": "The site excludes phone number, street address, CV downloads, CRAFT name, unconfirmed accounts, and excluded quantitative claims.",
+      "covered_by": ["SPEC-01", "SPEC-03", "SPEC-05", "SPEC-06"],
+      "evidence_required": "integration",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-003",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:30",
+      "promise": "The profile exposes only the confirmed identity and contact links, with WeChat opening the complete supplied image in a modal.",
+      "covered_by": ["SPEC-02", "SPEC-03", "SPEC-04", "SPEC-06"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-004",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:34",
+      "promise": "Publications are split into one selected first-author paper, three collaborative papers, and a separate AAAI 2027 under-review TWCS entry.",
+      "covered_by": ["SPEC-01", "SPEC-03", "SPEC-04", "SPEC-06"],
+      "evidence_required": "integration",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-005",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:37",
+      "promise": "Open Source contains only senpai-skill and identifies Haibiao Zhang as Core Contributor without implying ownership.",
+      "covered_by": ["SPEC-01", "SPEC-03", "SPEC-06"],
+      "evidence_required": "integration",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-006",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:43",
+      "promise": "The portrait, five approved research figures, official institution marks, complete WeChat image, and four privacy-processed certificates are locally served and render without cropping scientific content.",
+      "covered_by": ["SPEC-02", "SPEC-04", "SPEC-06"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-007",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:62",
+      "promise": "Public certificate copies obscure contributor name lists and detailed addresses while retaining certificate identity, dates, right holder, QR codes, and barcodes.",
+      "covered_by": ["SPEC-02", "SPEC-06"],
+      "evidence_required": "integration",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-008",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:87",
+      "promise": "English is the first-visit default, all visible content switches to Chinese in place, and the language persists.",
+      "covered_by": ["SPEC-03", "SPEC-04", "SPEC-06"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-009",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:91",
+      "promise": "Navigation and modal interactions are keyboard accessible, respect reduced motion, restore focus, and avoid desktop/mobile overflow.",
+      "covered_by": ["SPEC-04", "SPEC-06"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-010",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:97",
+      "promise": "Public CVs, legacy routes, template media, and scheduled Scholar synchronization are removed from deployment.",
+      "covered_by": ["SPEC-01", "SPEC-05", "SPEC-06"],
+      "evidence_required": "integration",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-011",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:111",
+      "promise": "A public codeocd/codeocd.github.io repository deploys the validated Astro build through GitHub Pages at https://codeocd.github.io.",
+      "covered_by": ["SPEC-05", "SPEC-07"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    },
+    {
+      "claim_id": "CLAIM-012",
+      "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:119",
+      "promise": "The full automated, browser, visual, privacy, build, and post-deployment validation gate passes before completion.",
+      "covered_by": ["SPEC-06", "SPEC-07", "REVIEW-01"],
+      "evidence_required": "real_e2e",
+      "production_path_required": true,
+      "status": "covered"
+    }
+  ]
+}

@@ -15,10 +15,16 @@ The public page is derived from the following local, user-provided sources:
 
 ## Asset policy
 
-No portrait, paper figure, patent certificate scan, or software-copyright scan was supplied in the current workspace. The page therefore uses text-first layouts and does not invent or borrow visual assets from the template author.
+The portrait, five research figures, WeChat QR image, two patent certificates, and two software-copyright certificates were supplied by the site owner. Public certificate copies obscure contributor lists and detailed addresses while retaining registry identifiers and verification codes.
 
-## Pending confirmation
+Official institution marks are archived locally from the institutions' current websites:
 
-The Google Scholar ID `_liHsuEAAAAJ`, GitHub account, final site URL, public patent links, and portrait are not treated as verified until the owner confirms them.
+- USTC wordmark: https://www.ustc.edu.cn/images/zkdlogo.png
+- Southwest Forestry University wordmark: https://www.swfu.edu.cn/images/0917.png
+- Institute of Plasma Physics, CAS / ASIPP mark: http://www.ipp.cas.cn/dwgk/bsxt/202304/W020250115795579308228.png
 
-Template-owned CVs, portrait, paper figures, intellectual-property scans, and the old static archive were moved to `.template-legacy/` so they are not copied into the public build output. That directory is reversible and can be deleted only after the owner confirms it is no longer needed.
+These marks identify education and research affiliations only and do not imply endorsement.
+
+## Confirmed public identity
+
+The site owner confirmed Google Scholar ID `_liHsuEAAAAJ`, GitHub account `codeocd`, production URL `https://codeocd.github.io`, the supplied portrait, and all listed media during the 2026-09 homepage design review. Template-owned CVs, portrait, paper figures, intellectual-property scans, and the old static archive are excluded from deployment.
