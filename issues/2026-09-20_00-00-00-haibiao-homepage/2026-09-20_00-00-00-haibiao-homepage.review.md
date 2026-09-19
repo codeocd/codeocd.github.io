@@ -60,3 +60,29 @@
 
 - 以后替换证书源图时，仍需重新检查遮挡坐标和公开副本。
 - 手动 Scholar 工具仍保留，但没有定时 workflow，也不公开引用数。
+
+## REVIEW-03
+
+- Source doc: `docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md`
+- Review agent: `codex-exec-independent`
+- Review independence: `strong`
+- Actual model: `unknown`
+- Scope checked: 原设计全部目标、前两轮全部修复、最终隐私指纹策略、完整测试门禁和生产部署
+- Evidence checked: 提交 `859f1c4`、源码与 dist 共用策略、名单注入变异测试、workflow run `35460205528`、生产 HTTP 200 与既有浏览器交互证据
+- Claim coverage: `12/12`, complete
+- Claim/evidence alignment: matched
+- Limited validation honestly reported: yes; 模型一致性未知，只读审查环境无法自行重跑 Node、Playwright 和生产浏览器
+- Result: `vision_met`
+- Gaps: none
+- Follow-up issues added: none
+- Human-required blockers: none
+
+### Assumptions
+
+- workflow `35460205528` 与主会话生产浏览器结果作为外部执行证据，且与审查过的提交和实现一致。
+- 三张证书含私人个人名单并保存指纹；第四张只显示批准公开的机构权利人。
+
+### Decision Debt
+
+- 手动 Scholar 维护脚本仍在仓库中，但没有定时 workflow，也不公开引用数。
+- 证书名单变化或更换源图时，需要更新指纹并重新检查遮挡。
