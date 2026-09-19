@@ -5,7 +5,7 @@
   "claim_coverage": {
     "covered": 12,
     "total": 12,
-    "status": "pending"
+    "status": "gaps_found_in_review_01"
   },
   "claims": [
     {
@@ -39,7 +39,7 @@
       "claim_id": "CLAIM-004",
       "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:34",
       "promise": "Publications are split into one selected first-author paper, three collaborative papers, and a separate AAAI 2027 under-review TWCS entry.",
-      "covered_by": ["SPEC-01", "SPEC-03", "SPEC-04", "SPEC-06"],
+      "covered_by": ["SPEC-01", "SPEC-03", "SPEC-04", "SPEC-06", "FOLLOWUP-04"],
       "evidence_required": "integration",
       "production_path_required": true,
       "status": "covered"
@@ -75,7 +75,7 @@
       "claim_id": "CLAIM-008",
       "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:87",
       "promise": "English is the first-visit default, all visible content switches to Chinese in place, and the language persists.",
-      "covered_by": ["SPEC-03", "SPEC-04", "SPEC-06"],
+      "covered_by": ["SPEC-03", "SPEC-04", "SPEC-06", "FOLLOWUP-03"],
       "evidence_required": "real_e2e",
       "production_path_required": true,
       "status": "covered"
@@ -93,7 +93,7 @@
       "claim_id": "CLAIM-010",
       "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:97",
       "promise": "Public CVs, legacy routes, template media, and scheduled Scholar synchronization are removed from deployment.",
-      "covered_by": ["SPEC-01", "SPEC-05", "SPEC-06"],
+      "covered_by": ["SPEC-01", "SPEC-05", "SPEC-06", "FOLLOWUP-01"],
       "evidence_required": "integration",
       "production_path_required": true,
       "status": "covered"
@@ -102,7 +102,7 @@
       "claim_id": "CLAIM-011",
       "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:111",
       "promise": "A public codeocd/codeocd.github.io repository deploys the validated Astro build through GitHub Pages at https://codeocd.github.io.",
-      "covered_by": ["SPEC-05", "SPEC-07"],
+      "covered_by": ["SPEC-05", "SPEC-07", "FOLLOWUP-02"],
       "evidence_required": "real_e2e",
       "production_path_required": true,
       "status": "covered"
@@ -111,7 +111,7 @@
       "claim_id": "CLAIM-012",
       "source_ref": "docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md:119",
       "promise": "The full automated, browser, visual, privacy, build, and post-deployment validation gate passes before completion.",
-      "covered_by": ["SPEC-06", "SPEC-07", "REVIEW-01"],
+      "covered_by": ["SPEC-06", "SPEC-07", "FOLLOWUP-01", "FOLLOWUP-02", "FOLLOWUP-03", "FOLLOWUP-04", "REVIEW-02"],
       "evidence_required": "real_e2e",
       "production_path_required": true,
       "status": "covered"

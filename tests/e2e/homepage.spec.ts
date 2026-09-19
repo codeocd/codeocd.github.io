@@ -35,6 +35,7 @@ test.beforeEach(async ({ page }) => {
 
 test('renders the approved English profile and public sections by default', async ({ page, isMobile }) => {
   await expect(page).toHaveTitle('Haibiao Zhang');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://codeocd.github.io/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('.profile-identity').getByRole('heading')).toContainText('Haibiao Zhang');
   await expect(page.locator('.profile-avatar')).toHaveAttribute('src', '/images/profile/haibiao-zhang.jpg');
@@ -73,6 +74,9 @@ test('renders the approved English profile and public sections by default', asyn
 });
 
 test('switches every visible language layer while keeping the title fixed and persists the preference', async ({ page }) => {
+  await expect(page.locator('.profile-avatar')).toHaveAttribute('alt', 'Portrait of Haibiao Zhang');
+  await expect(page.locator('#publications .paper-figure img').first()).toHaveAttribute('alt', 'Data-driven fault diagnosis for abnormal RF oscillation of gyrotrons');
+  await expect(page.locator('#intellectual-property .ip-document-preview img').first()).toHaveAttribute('alt', 'CN 120029768 B invention patent record');
   await page.getByRole('button', { name: '中文' }).click();
   await expect(page).toHaveTitle('Haibiao Zhang');
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
@@ -80,6 +84,11 @@ test('switches every visible language layer while keeping the title fixed and pe
   await expect(page.locator('#about')).toContainText('回旋管');
   await expect(page.locator('#intellectual-property')).toContainText('已授权发明专利');
   await expect(page.locator('#opensource')).toContainText('核心贡献者');
+  await expect(page.locator('#ongoing-research')).toContainText('AAAI 2027 · 在审');
+  await expect(page.locator('.profile-avatar')).toHaveAttribute('alt', '张海彪头像');
+  await expect(page.locator('#publications .paper-figure img').first()).toHaveAttribute('alt', '回旋管异常射频振荡的数据驱动故障诊断');
+  await expect(page.locator('#ongoing-research .paper-figure img')).toHaveAttribute('alt', /框架图$/);
+  await expect(page.locator('#intellectual-property .ip-document-preview img').first()).toHaveAttribute('alt', 'CN 120029768 B 发明专利记录');
   await expect(page.getByRole('link', { name: /Download CV|下载简历/ })).toHaveCount(0);
 
   await page.reload();

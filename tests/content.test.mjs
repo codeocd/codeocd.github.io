@@ -103,6 +103,9 @@ test('page uses data-driven identity and safe optional links', async () => {
   assert.match(page, /profile\.links\.scholar &&/);
   assert.match(page, /data-modal-open/);
   assert.match(page, /markAuthor/);
+  assert.match(page, /rel="canonical"/);
+  assert.match(page, /data-alt-en/);
+  assert.match(page, /data-alt-zh/);
   assert.doesNotMatch(page, /Download CV|下载简历|data-cv-link/);
   assert.doesNotMatch(page, /Haichao Zhang/);
   assert.doesNotMatch(page, /Xi'an Jiaotong-Liverpool/);
@@ -117,6 +120,7 @@ test('page renders publications, collaborative work, ongoing work, and intellect
   assert.match(page, /ongoingResearch\.map/);
   assert.match(page, /intellectualProperty\.map/);
   assert.match(site, /AAAI 2027/);
+  assert.match(site, /AAAI 2027 · 在审/);
   assert.match(site, /Data-driven Optimization of Electron Gun Parameters/);
   assert.match(site, /Fault Prediction of Gyrotron Operating Parameters/);
 });

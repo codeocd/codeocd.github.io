@@ -261,7 +261,7 @@ export const ongoingResearch = [
     title: 'TWCS (Trajectory-Witness Conformal Surrogate): A Tolerance-Aware Workflow for Conformal Screening of Gyrotron Electron-Gun Designs in Fusion Heating Systems',
     status: {
       en: 'AAAI 2027 · Under Review',
-      zh: 'AAAI 2027 · 审稿中'
+      zh: 'AAAI 2027 · 在审'
     },
     description: {
       en: 'A validity-aware surrogate workflow that combines transport assessment, conditional beam-output prediction, and conformal screening under declared manufacturing and magnetic-field tolerances.',

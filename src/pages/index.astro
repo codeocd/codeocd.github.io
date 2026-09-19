@@ -94,6 +94,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
     <meta property="og:type" content="website" />
     {siteUrl && <meta property="og:url" content={`${siteUrl}/`} />}
     {siteUrl && profile.portrait && <meta property="og:image" content={`${siteUrl}${profile.portrait}`} />}
+    {siteUrl && <link rel="canonical" href={`${siteUrl}/`} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       try {
@@ -146,7 +147,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
       <aside class="academic-sidebar" aria-label="Academic profile">
         <div class="profile-card reveal">
           {profile.portrait ? (
-            <img class="profile-avatar" src={profile.portrait} alt={`Portrait of ${profile.name.en}`} width="420" height="420" fetchpriority="high" />
+            <img class="profile-avatar" src={profile.portrait} alt={`Portrait of ${profile.name.en}`} data-alt-en={`Portrait of ${profile.name.en}`} data-alt-zh={`${profile.name.zh}头像`} width="420" height="420" fetchpriority="high" />
           ) : null}
           <div class="profile-identity">
             <h2><span data-lang="en">{profile.name.en}</span><span data-lang="zh">{profile.name.zh}</span></h2>
@@ -290,7 +291,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 data-modal-alt-zh={publication.imageAlt.zh}
                 aria-label={`Enlarge ${publication.shortName} framework figure`}
               >
-                <img src={publication.image} alt={publication.imageAlt.en} loading="lazy" />
+                <img src={publication.image} alt={publication.imageAlt.en} data-alt-en={publication.imageAlt.en} data-alt-zh={publication.imageAlt.zh} loading="lazy" />
               </button>}
               <div class="paper-info">
                 <span class="venue-badge">{publication.venueLabel}</span>
@@ -325,7 +326,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 data-modal-alt-zh={presentation.imageAlt.zh}
                 aria-label={`Enlarge ${presentation.shortName} framework figure`}
               >
-                <img src={figure.image} alt={figure.alt} loading="lazy" />
+                <img src={figure.image} alt={figure.alt} data-alt-en={figure.alt} data-alt-zh={presentation.imageAlt.zh} loading="lazy" />
               </button>}
               <div class="paper-info">
                 <span class="venue-badge">{presentation.venueLabel}</span>
@@ -368,7 +369,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   data-modal-alt-zh={`${publication.title} 框架图`}
                   aria-label={`Enlarge ${publication.title} framework figure`}
                 >
-                  <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
+                  <img src={figure.image} alt={figure.alt} data-alt-en={figure.alt} data-alt-zh={`${publication.title} 框架图`} width={figure.width} height={figure.height} loading="lazy" />
                 </button>
               )}
               <div class="paper-info">
@@ -415,7 +416,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 data-modal-alt-zh={presentation.imageAlt.zh}
                 aria-label={`Enlarge ${presentation.shortName} framework figure`}
               >
-                <img src={figure.image} alt={figure.alt} loading="lazy" />
+                <img src={figure.image} alt={figure.alt} data-alt-en={figure.alt} data-alt-zh={presentation.imageAlt.zh} loading="lazy" />
               </button>}
               <div class="paper-info">
                 <span class="venue-badge">{presentation.venueLabel}</span>
@@ -458,7 +459,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   data-modal-alt-zh={`${publication.title} 框架图`}
                   aria-label={`Enlarge ${publication.title} framework figure`}
                 >
-                  <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
+                  <img src={figure.image} alt={figure.alt} data-alt-en={figure.alt} data-alt-zh={`${publication.title} 框架图`} width={figure.width} height={figure.height} loading="lazy" />
                 </button>
               )}
               <div class="paper-info">
@@ -506,7 +507,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   data-modal-alt-zh={`${paper.title} 框架图`}
                   aria-label={`Enlarge ${paper.title} framework figure`}
                 >
-                  <img src={paper.image} alt={`${paper.title} framework figure`} loading="lazy" />
+                  <img src={paper.image} alt={`${paper.title} framework figure`} data-alt-en={`${paper.title} framework figure`} data-alt-zh={`${paper.title} 框架图`} loading="lazy" />
                 </button>}
                 <div class="paper-info">
                   <span class="venue-badge muted"><span data-lang="en">{paper.status.en}</span><span data-lang="zh">{paper.status.zh}</span></span>
@@ -551,7 +552,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   data-modal-alt-zh={item.imageAlt.zh}
                   aria-label={`Enlarge ${item.number} document preview`}
                 >
-                  <img src={item.image} alt={item.imageAlt.en} loading="lazy" />
+                  <img src={item.image} alt={item.imageAlt.en} data-alt-en={item.imageAlt.en} data-alt-zh={item.imageAlt.zh} loading="lazy" />
                 </button>}
                 <div class="ip-info">
                   <div class="ip-meta">
@@ -619,6 +620,9 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         const nameEn = root.dataset.nameEn ?? 'Haibiao Zhang';
         document.title = nameEn;
         languageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.languageButton === language)));
+        document.querySelectorAll<HTMLImageElement>('[data-alt-en][data-alt-zh]').forEach((image) => {
+          image.alt = language === 'zh' ? image.dataset.altZh ?? '' : image.dataset.altEn ?? '';
+        });
         if (menuToggle) menuToggle.setAttribute('aria-label', language === 'zh' ? '菜单' : 'Menu');
         try { localStorage.setItem('haibiao-site-language', language); } catch {}
       };
