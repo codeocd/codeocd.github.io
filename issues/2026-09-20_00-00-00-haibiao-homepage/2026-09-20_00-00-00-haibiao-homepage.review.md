@@ -31,3 +31,32 @@
 
 - 仓库保留手动 Scholar 更新脚本，但没有定时 workflow，也没有公开引用数；是否长期保留该维护工具不影响本轮发布。
 - 生产交互证据目前记录在任务 notes 和 workflow/HTTP 证据中，尚未建立单独的长期测试报告格式。
+
+## REVIEW-02
+
+- Source doc: `docs/superpowers/specs/2026-09-20-haibiao-zhang-homepage-design.md`
+- Review agent: `codex-exec-independent`
+- Review independence: `strong`
+- Actual model: `unknown`
+- Scope checked: 原设计全部目标、REVIEW-01 四项修复、本地完整门禁、Pages workflow 与生产浏览器证据
+- Evidence checked: 提交 `9cd7e6b`、workflow run `35459315033`、生产 HTTP 200、canonical、中文图片替代文本、TWCS 状态和横向溢出记录
+- Claim coverage: `11/12`, gaps
+- Claim/evidence alignment: one mismatch found
+- Limited validation honestly reported: yes; 模型一致性未知，只读审查环境无法自行重跑 Node、Playwright 和生产浏览器
+- Result: `gaps_found`
+- Follow-up issues added: `FOLLOWUP-05`
+- Human-required blockers: none
+
+### Gaps
+
+1. `dist` 隐私扫描没有编码证书完整贡献者名单，无法在未来误写完整名单时触发失败。
+
+### Assumptions
+
+- 本地主会话提供的测试、workflow 与生产浏览器结果作为外部运行证据。
+- 原始分辨率检查已确认四张公开证书副本的名单或地址区域被遮挡。
+
+### Decision Debt
+
+- 以后替换证书源图时，仍需重新检查遮挡坐标和公开副本。
+- 手动 Scholar 工具仍保留，但没有定时 workflow，也不公开引用数。

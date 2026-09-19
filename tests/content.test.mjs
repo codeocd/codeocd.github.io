@@ -1,13 +1,30 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { access, readFile, stat } from 'node:fs/promises';
+import { access, readFile, readdir, stat } from 'node:fs/promises';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { findPrivacyViolation } from './privacy-policy.mjs';
 
 const root = new URL('../', import.meta.url);
 const execFileAsync = promisify(execFile);
 const read = (path) => readFile(new URL(path, root), 'utf8');
+const privacySourceRoots = ['src/', 'public/', '.github/', 'astro.config.mjs', 'package.json', 'README.md'];
+const privacyTextExtensions = new Set(['.astro', '.css', '.html', '.js', '.json', '.md', '.mjs', '.ts', '.txt', '.xml', '.yml', '.yaml']);
+
+const collectPrivacySourceFiles = async (relativePath) => {
+  const url = new URL(relativePath, root);
+  const details = await stat(url);
+  if (details.isFile()) return [url];
+
+  const files = [];
+  for (const entry of await readdir(url, { withFileTypes: true })) {
+    const childPath = `${relativePath}${entry.name}${entry.isDirectory() ? '/' : ''}`;
+    if (entry.isDirectory()) files.push(...await collectPrivacySourceFiles(childPath));
+    else if (privacyTextExtensions.has(entry.name.slice(entry.name.lastIndexOf('.')).toLowerCase())) files.push(new URL(childPath, root));
+  }
+  return files;
+};
 
 const requiredAssets = [
   'public/images/profile/haibiao-zhang.jpg',
@@ -147,8 +164,8 @@ test('documentation names the current person and confirmed public services', asy
 });
 
 test('public source does not expose private contact data or old template identity', async () => {
-  const files = ['src/data/site.ts', 'src/pages/index.astro', 'src/styles/global.css', 'README.md'];
-  const source = (await Promise.all(files.map(read))).join('\n');
+  const files = (await Promise.all(privacySourceRoots.map(collectPrivacySourceFiles))).flat();
+  const source = (await Promise.all(files.map((file) => readFile(file, 'utf8')))).join('\n');
   assert.doesNotMatch(source, /15388581962/);
   assert.doesNotMatch(source, /No\.96 Jinzhai Road/i);
   assert.doesNotMatch(source, /金寨路\s*96\s*号/i);
@@ -156,6 +173,7 @@ test('public source does not expose private contact data or old template identit
   assert.doesNotMatch(source, /zhc@liverpool\.ac\.uk/i);
   assert.doesNotMatch(source, /Haichao Zhang|XJTLU|Xi'an Jiaotong-Liverpool/);
   assert.match(source, /haibiaozhang@mail\.ustc\.edu\.cn/i);
+  assert.equal(findPrivacyViolation(source), null);
 });
 
 test('framework and legacy data are no longer used by the page', async () => {
