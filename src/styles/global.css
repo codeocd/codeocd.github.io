@@ -26,7 +26,7 @@ body {
   background:
     linear-gradient(180deg, rgba(214, 231, 224, 0.22), transparent 22rem),
     var(--paper);
-  font-family: "Trebuchet MS", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-family: "Aptos", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   font-size: 16px;
   line-height: 1.68;
   text-rendering: optimizeLegibility;
@@ -35,7 +35,11 @@ body {
 
 body,
 button {
-  font-family: "Trebuchet MS", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-family: "Aptos", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 img {
@@ -240,19 +244,6 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   box-shadow: 0 10px 28px rgba(31, 44, 59, 0.16);
 }
 
-.profile-avatar-placeholder {
-  display: grid;
-  place-items: center;
-  color: #fbfaf6;
-  background:
-    linear-gradient(145deg, rgba(14, 101, 112, 0.95), rgba(38, 50, 56, 0.96)),
-    #0e6570;
-  font-family: Georgia, "Noto Serif SC", serif;
-  font-size: 3.3rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
 .profile-identity h2 {
   margin: 0 0 0.12rem;
   color: #20252b;
@@ -300,12 +291,32 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 
 .profile-links li {
   display: grid;
-  grid-template-columns: 1.25rem minmax(0, 1fr);
-  column-gap: 0.35rem;
+  grid-template-columns: 2.35rem minmax(0, 1fr);
+  column-gap: 0.45rem;
   align-items: baseline;
   color: var(--muted);
   font-size: 0.79rem;
   line-height: 1.38;
+}
+
+.profile-link-button {
+  width: fit-content;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  color: var(--link);
+  background: transparent;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-link-button:hover,
+.profile-link-button:focus-visible {
+  color: var(--link-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .profile-links a {
@@ -314,9 +325,10 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 
 .profile-icon {
   color: #808995;
-  font-family: Georgia, serif;
-  font-size: 0.76rem;
+  font-family: "Aptos", "Noto Sans SC", sans-serif;
+  font-size: 0.62rem;
   font-weight: 700;
+  line-height: 1.55;
 }
 
 .research-interests {
@@ -384,15 +396,6 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 .content-section h2 {
   font-size: clamp(1.55rem, 2.4vw, 1.78rem);
   line-height: 1.25;
-}
-
-.heading-icon {
-  display: inline-block;
-  margin-right: 0.5rem;
-  font-family: system-ui, sans-serif;
-  font-size: 0.82em;
-  line-height: 1;
-  vertical-align: 0.06em;
 }
 
 .content-section p {
@@ -575,11 +578,6 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   font-weight: 700;
 }
 
-.paper-link-placeholder {
-  color: #78828d;
-  font-weight: 600;
-}
-
 .publication-citation {
   margin-left: auto;
   color: #78828d;
@@ -625,20 +623,6 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   max-width: 58px;
   height: 50px;
   object-fit: contain;
-}
-
-.institution-logo-placeholder {
-  display: inline-grid;
-  place-items: center;
-  width: 64px;
-  height: 50px;
-  border: 1px solid var(--rule);
-  color: var(--link-dark);
-  background: rgba(214, 231, 224, 0.38);
-  font-family: Georgia, "Noto Serif SC", serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
 }
 
 .industry-list .institution-logos img {
@@ -791,7 +775,7 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 .ip-document-preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: top center;
   transition: transform 220ms ease;
 }
@@ -902,7 +886,9 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   position: absolute;
   top: 0.45rem;
   right: 0.65rem;
-  padding: 0.2rem 0.5rem;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   border: 0;
   color: #4b535c;
   background: transparent;
@@ -1102,10 +1088,6 @@ html[data-ui-language="zh"] [data-lang="zh"] {
     width: 102px;
     height: 102px;
     border-width: 3px;
-  }
-
-  .profile-avatar-placeholder {
-    font-size: 2rem;
   }
 
   .profile-identity h2 {

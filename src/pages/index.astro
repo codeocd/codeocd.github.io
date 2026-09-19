@@ -80,7 +80,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 ---
 
 <!doctype html>
-<html lang="en" data-ui-language="en" data-cv-en={profile.links.cvEn} data-cv-zh={profile.links.cvZh} data-name-en={profile.name.en} data-name-zh={profile.name.zh}>
+<html lang="en" data-ui-language="en" data-name-en={profile.name.en} data-name-zh={profile.name.zh}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -89,7 +89,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
       name="description"
       content={profile.headline.en}
     />
-    <meta property="og:title" content={`${profile.name.en} · Academic Homepage`} />
+    <meta property="og:title" content={profile.name.en} />
     <meta property="og:description" content={profile.headline.en} />
     <meta property="og:type" content="website" />
     {siteUrl && <meta property="og:url" content={`${siteUrl}/`} />}
@@ -102,7 +102,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
       } catch {}
     </script>
     <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
-    <title>{profile.name.en} · Academic Homepage</title>
+    <title>{profile.name.en}</title>
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">
@@ -147,9 +147,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         <div class="profile-card reveal">
           {profile.portrait ? (
             <img class="profile-avatar" src={profile.portrait} alt={`Portrait of ${profile.name.en}`} width="420" height="420" fetchpriority="high" />
-          ) : (
-            <div class="profile-avatar profile-avatar-placeholder" role="img" aria-label={`${profile.name.en} initials`}>HZ</div>
-          )}
+          ) : null}
           <div class="profile-identity">
             <h2><span data-lang="en">{profile.name.en}</span><span data-lang="zh">{profile.name.zh}</span></h2>
             <p class="profile-role"><span data-lang="en">{profile.role.en}</span><span data-lang="zh">{profile.role.zh}</span></p>
@@ -168,20 +166,25 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
           <ul class="profile-links">
             <li>
-              <span class="profile-icon" aria-hidden="true">⌖</span>
+              <span class="profile-icon" aria-hidden="true">LOC</span>
               <span data-lang="en">{profile.location.en}</span><span data-lang="zh">{profile.location.zh}</span>
             </li>
             <li>
-              <span class="profile-icon" aria-hidden="true">✉</span>
+              <span class="profile-icon" aria-hidden="true">MAIL</span>
               <a href={`mailto:${profile.email}`}>{profile.email}</a>
             </li>
-            {profile.links.scholar && <li><span class="profile-icon" aria-hidden="true">G</span><a href={profile.links.scholar} target="_blank" rel="noreferrer">Google Scholar</a></li>}
+            {profile.links.scholar && <li><span class="profile-icon" aria-hidden="true">GS</span><a href={profile.links.scholar} target="_blank" rel="noreferrer">Google Scholar</a></li>}
             {profile.links.github && <li><span class="profile-icon" aria-hidden="true">GH</span><a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a></li>}
             <li>
-              <span class="profile-icon" aria-hidden="true">↓</span>
-              <a href={profile.links.cvEn} data-cv-link>
-                <span data-lang="en">Download CV</span><span data-lang="zh">下载简历</span>
-              </a>
+              <span class="profile-icon" aria-hidden="true">WX</span>
+              <button
+                class="profile-link-button"
+                type="button"
+                data-modal-open
+                data-modal-src={profile.links.wechat}
+                data-modal-alt-en="WeChat contact QR code for Haibiao Zhang"
+                data-modal-alt-zh="张海彪的微信联系二维码"
+              ><span data-lang="en">WeChat</span><span data-lang="zh">微信</span></button>
             </li>
           </ul>
 
@@ -196,7 +199,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
       <article class="academic-main">
         <section class="content-section about-section reveal" id="about" aria-labelledby="about-title">
-          <h1 id="about-title"><span class="heading-icon" aria-hidden="true">👋</span><span data-lang="en">About Me</span><span data-lang="zh">关于我</span></h1>
+          <h1 id="about-title"><span data-lang="en">About Me</span><span data-lang="zh">关于我</span></h1>
           <p><span data-lang="en">{about.body.en}</span><span data-lang="zh">{about.body.zh}</span></p>
           <p class="profile-advisor"><span data-lang="en">{about.advisor.en}</span><span data-lang="zh">{about.advisor.zh}</span>{profile.links.supervisor && <a href={profile.links.supervisor} target="_blank" rel="noreferrer"> ↗</a>}</p>
           <p><span data-lang="en">{profile.statement.en}</span><span data-lang="zh">{profile.statement.zh}</span></p>
@@ -212,7 +215,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section reveal" id="news" aria-labelledby="news-title">
-          <h2 id="news-title"><span class="heading-icon" aria-hidden="true">🔥</span><span data-lang="en">News</span><span data-lang="zh">近期动态</span></h2>
+          <h2 id="news-title"><span data-lang="en">News</span><span data-lang="zh">近期动态</span></h2>
           <ul class="news-list">
             {news.map((item) => (
               <li>
@@ -226,14 +229,14 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="experience-education" aria-labelledby="journey-title">
-          <h2 id="journey-title" class="reveal"><span class="heading-icon" aria-hidden="true">🧭</span><span data-lang="en">Experience & Education</span><span data-lang="zh">工作与教育经历</span></h2>
+          <h2 id="journey-title" class="reveal"><span data-lang="en">Experience & Education</span><span data-lang="zh">工作与教育经历</span></h2>
 
           <h3 class="subsection-title reveal"><span data-lang="en">Education</span><span data-lang="zh">教育经历</span></h3>
           <div class="timeline-list education-list">
             {education.map((item) => (
               <article class="timeline-item reveal">
                 <div class="institution-logos">
-                  {item.logo ? <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" /> : <span class="institution-logo-placeholder" aria-hidden="true">{item.logoAlt.slice(0, 2)}</span>}
+                  {item.logo && <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" />}
                   {item.secondaryLogo && <img src={item.secondaryLogo} alt={item.secondaryLogoAlt ?? ''} width="76" height="76" loading="lazy" />}
                 </div>
                 <div>
@@ -251,7 +254,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
             {experience.map((item) => (
               <article class="timeline-item reveal">
                 <div class="institution-logos">
-                  {item.logo ? <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" /> : <span class="institution-logo-placeholder" aria-hidden="true">{item.logoAlt.slice(0, 2)}</span>}
+                  {item.logo && <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" />}
                 </div>
                 <div>
                   <time>{item.period}</time>
@@ -270,7 +273,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
         <section class="content-section" id="publications" aria-labelledby="publications-title">
           <div class="section-heading reveal">
-            <h2 id="publications-title"><span class="heading-icon" aria-hidden="true">📝</span><span data-lang="en">Publications</span><span data-lang="zh">学术论文</span></h2>
+            <h2 id="publications-title"><span data-lang="en">Selected Publications</span><span data-lang="zh">代表性论文</span></h2>
             {profile.links.scholar && <a href={profile.links.scholar} target="_blank" rel="noreferrer">
               <span data-lang="en">Google Scholar profile</span><span data-lang="zh">Google Scholar 主页</span> ↗
             </a>}
@@ -281,9 +284,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
               {publication.image && <button
                 class="paper-figure"
                 type="button"
-                data-figure-src={publication.image}
-                data-figure-alt-en={publication.imageAlt.en}
-                data-figure-alt-zh={publication.imageAlt.zh}
+                data-modal-open
+                data-modal-src={publication.image}
+                data-modal-alt-en={publication.imageAlt.en}
+                data-modal-alt-zh={publication.imageAlt.zh}
                 aria-label={`Enlarge ${publication.shortName} framework figure`}
               >
                 <img src={publication.image} alt={publication.imageAlt.en} loading="lazy" />
@@ -297,14 +301,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 <p class="publication-venue">{publication.venue}</p>
                 <p><span data-lang="en">{publication.description.en}</span><span data-lang="zh">{publication.description.zh}</span></p>
                 <div class="paper-links">
-                  {publication.preprintUrl ? (
+                  {publication.preprintUrl && (
                     <a href={publication.preprintUrl} target="_blank" rel="noreferrer">
                       [<span data-lang="en">Preprint</span><span data-lang="zh">预印本</span>]
                     </a>
-                  ) : (
-                    <span class="paper-link-placeholder">
-                      [<span data-lang="en">Preprint coming soon</span><span data-lang="zh">预印本即将发布</span>]
-                    </span>
                   )}
                   {publication.codeUrl && <a href={publication.codeUrl} target="_blank" rel="noreferrer">
                     [<span data-lang="en">Code</span><span data-lang="zh">代码</span>]
@@ -319,9 +319,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
               {figure && <button
                 class="paper-figure"
                 type="button"
-                data-figure-src={figure.image}
-                data-figure-alt-en={figure.alt}
-                data-figure-alt-zh={presentation.imageAlt.zh}
+                data-modal-open
+                data-modal-src={figure.image}
+                data-modal-alt-en={figure.alt}
+                data-modal-alt-zh={presentation.imageAlt.zh}
                 aria-label={`Enlarge ${presentation.shortName} framework figure`}
               >
                 <img src={figure.image} alt={figure.alt} loading="lazy" />
@@ -361,9 +362,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 <button
                   class="paper-figure"
                   type="button"
-                  data-figure-src={figure.image}
-                  data-figure-alt-en={figure.alt}
-                  data-figure-alt-zh={`${publication.title} 框架图`}
+                  data-modal-open
+                  data-modal-src={figure.image}
+                  data-modal-alt-en={figure.alt}
+                  data-modal-alt-zh={`${publication.title} 框架图`}
                   aria-label={`Enlarge ${publication.title} framework figure`}
                 >
                   <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
@@ -394,7 +396,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         <section class="content-section" id="collaborative-publications" aria-labelledby="collaborative-title">
           <div class="section-heading reveal">
             <div>
-              <h2 id="collaborative-title"><span class="heading-icon" aria-hidden="true">🤝</span><span data-lang="en">Collaborative Publications</span><span data-lang="zh">合作论文</span></h2>
+              <h2 id="collaborative-title"><span data-lang="en">Collaborative Work</span><span data-lang="zh">合作论文</span></h2>
               <p class="section-note">
                 <span data-lang="en">Research contributions developed through interdisciplinary collaboration.</span>
                 <span data-lang="zh">跨方向合作完成的研究成果。</span>
@@ -407,9 +409,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
               {figure && <button
                 class="paper-figure"
                 type="button"
-                data-figure-src={figure.image}
-                data-figure-alt-en={figure.alt}
-                data-figure-alt-zh={presentation.imageAlt.zh}
+                data-modal-open
+                data-modal-src={figure.image}
+                data-modal-alt-en={figure.alt}
+                data-modal-alt-zh={presentation.imageAlt.zh}
                 aria-label={`Enlarge ${presentation.shortName} framework figure`}
               >
                 <img src={figure.image} alt={figure.alt} loading="lazy" />
@@ -449,9 +452,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 <button
                   class="paper-figure"
                   type="button"
-                  data-figure-src={figure.image}
-                  data-figure-alt-en={figure.alt}
-                  data-figure-alt-zh={`${publication.title} 框架图`}
+                  data-modal-open
+                  data-modal-src={figure.image}
+                  data-modal-alt-en={figure.alt}
+                  data-modal-alt-zh={`${publication.title} 框架图`}
                   aria-label={`Enlarge ${publication.title} framework figure`}
                 >
                   <img src={figure.image} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
@@ -482,7 +486,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         <section class="content-section" id="ongoing-research" aria-labelledby="ongoing-title">
           <div class="section-heading reveal">
             <div>
-              <h2 id="ongoing-title"><span class="heading-icon" aria-hidden="true">🔬</span><span data-lang="en">Ongoing Research</span><span data-lang="zh">在研工作</span></h2>
+              <h2 id="ongoing-title"><span data-lang="en">Ongoing Research</span><span data-lang="zh">在研工作</span></h2>
               <p class="section-note">
                 <span data-lang="en">Submitted and early-stage work is intentionally introduced only at a high level.</span>
                 <span data-lang="zh">为避免泄露尚未发表的研究思路，此处仅提供概括性介绍。</span>
@@ -496,9 +500,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 {paper.image && <button
                   class="paper-figure"
                   type="button"
-                  data-figure-src={paper.image}
-                  data-figure-alt-en={`${paper.title} framework figure`}
-                  data-figure-alt-zh={`${paper.title} 框架图`}
+                  data-modal-open
+                  data-modal-src={paper.image}
+                  data-modal-alt-en={`${paper.title} framework figure`}
+                  data-modal-alt-zh={`${paper.title} 框架图`}
                   aria-label={`Enlarge ${paper.title} framework figure`}
                 >
                   <img src={paper.image} alt={`${paper.title} framework figure`} loading="lazy" />
@@ -514,7 +519,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         {availableOpenSource.length > 0 && <section class="content-section" id="opensource" aria-labelledby="opensource-title">
-          <h2 id="opensource-title" class="reveal"><span class="heading-icon" aria-hidden="true">💻</span><span data-lang="en">Open Source</span><span data-lang="zh">开源项目</span></h2>
+          <h2 id="opensource-title" class="reveal"><span data-lang="en">Open Source</span><span data-lang="zh">开源项目</span></h2>
           <div class="project-list">
             {availableOpenSource.map((project) => (
               <a class="project-item reveal" href={project.href} target="_blank" rel="noreferrer">
@@ -529,7 +534,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>}
 
         <section class="content-section" id="intellectual-property" aria-labelledby="ip-title">
-          <h2 id="ip-title" class="reveal"><span class="heading-icon" aria-hidden="true">📜</span><span data-lang="en">Intellectual Property</span><span data-lang="zh">知识产权</span></h2>
+          <h2 id="ip-title" class="reveal"><span data-lang="en">Intellectual Property</span><span data-lang="zh">知识产权</span></h2>
           <p class="ip-summary reveal">
             <span data-lang="en">{intellectualProperty.filter((item) => item.kind === 'patent').length} invention patents and {intellectualProperty.filter((item) => item.kind === 'copyright').length} software copyrights.</span>
             <span data-lang="zh">{intellectualProperty.filter((item) => item.kind === 'patent').length} 项发明专利与 {intellectualProperty.filter((item) => item.kind === 'copyright').length} 项软件著作权。</span>
@@ -540,9 +545,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                 {item.image && <button
                   class="ip-document-preview"
                   type="button"
-                  data-figure-src={item.image}
-                  data-figure-alt-en={item.imageAlt.en}
-                  data-figure-alt-zh={item.imageAlt.zh}
+                  data-modal-open
+                  data-modal-src={item.image}
+                  data-modal-alt-en={item.imageAlt.en}
+                  data-modal-alt-zh={item.imageAlt.zh}
                   aria-label={`Enlarge ${item.number} document preview`}
                 >
                   <img src={item.image} alt={item.imageAlt.en} loading="lazy" />
@@ -565,7 +571,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="skills" aria-labelledby="skills-title">
-          <h2 id="skills-title" class="reveal"><span class="heading-icon" aria-hidden="true">🧰</span><span data-lang="en">Skills</span><span data-lang="zh">技能</span></h2>
+          <h2 id="skills-title" class="reveal"><span data-lang="en">Skills</span><span data-lang="zh">技能</span></h2>
           <div class="skills-list">
             {skills.map((skill) => (
               <article class="skill-item reveal">
@@ -577,7 +583,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="awards" aria-labelledby="awards-title">
-          <h2 id="awards-title" class="reveal"><span class="heading-icon" aria-hidden="true">🏆</span><span data-lang="en">Selected Awards</span><span data-lang="zh">部分荣誉</span></h2>
+          <h2 id="awards-title" class="reveal"><span data-lang="en">Selected Awards</span><span data-lang="zh">部分荣誉</span></h2>
           <ul class="award-list">
             {awards.map((award) => (
               <li class="reveal">
@@ -595,28 +601,24 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
       <a href="#top"><span data-lang="en">Back to top</span><span data-lang="zh">返回顶部</span> ↑</a>
     </footer>
 
-    <dialog class="figure-dialog" id="figure-dialog" aria-labelledby="figure-dialog-caption">
-      <button class="dialog-close" type="button" data-dialog-close aria-label="Close figure">×</button>
+    <dialog class="figure-dialog" id="media-dialog" aria-labelledby="media-dialog-caption">
+      <button class="dialog-close" type="button" data-dialog-close aria-label="Close preview">×</button>
       <div class="dialog-frame"><img src="" alt="" data-dialog-image /></div>
-      <p id="figure-dialog-caption" data-dialog-caption></p>
+      <p id="media-dialog-caption" data-dialog-caption></p>
     </dialog>
 
     <script>
       const root = document.documentElement;
       const languageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-language-button]'));
-      const cvLink = document.querySelector<HTMLAnchorElement>('[data-cv-link]');
       const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu');
-      const cvUrls = { en: root.dataset.cvEn ?? '', zh: root.dataset.cvZh ?? '' };
 
       const setLanguage = (language: 'en' | 'zh') => {
         root.dataset.uiLanguage = language;
         root.lang = language === 'zh' ? 'zh-CN' : 'en';
-        const nameEn = root.dataset.nameEn ?? 'Academic Homepage';
-        const nameZh = root.dataset.nameZh ?? nameEn;
-        document.title = language === 'zh' ? `${nameZh} · 学术主页` : `${nameEn} · Academic Homepage`;
+        const nameEn = root.dataset.nameEn ?? 'Haibiao Zhang';
+        document.title = nameEn;
         languageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.languageButton === language)));
-        if (cvLink) cvLink.href = cvUrls[language];
         if (menuToggle) menuToggle.setAttribute('aria-label', language === 'zh' ? '菜单' : 'Menu');
         try { localStorage.setItem('haibiao-site-language', language); } catch {}
       };
@@ -663,22 +665,39 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         if (section) navObserver.observe(section);
       });
 
-      const dialog = document.querySelector<HTMLDialogElement>('#figure-dialog');
+      const dialog = document.querySelector<HTMLDialogElement>('#media-dialog');
       const dialogImage = dialog?.querySelector<HTMLImageElement>('[data-dialog-image]');
       const dialogCaption = dialog?.querySelector<HTMLElement>('[data-dialog-caption]');
-      document.querySelectorAll<HTMLButtonElement>('[data-figure-src]').forEach((button) => {
+      const dialogClose = dialog?.querySelector<HTMLButtonElement>('[data-dialog-close]');
+      let modalTrigger: HTMLButtonElement | null = null;
+      document.querySelectorAll<HTMLButtonElement>('[data-modal-open]').forEach((button) => {
         button.addEventListener('click', () => {
           if (!dialog || !dialogImage || !dialogCaption) return;
           const language = root.dataset.uiLanguage === 'zh' ? 'zh' : 'en';
-          const alt = language === 'zh' ? button.dataset.figureAltZh : button.dataset.figureAltEn;
-          dialogImage.src = button.dataset.figureSrc ?? '';
+          const alt = language === 'zh' ? button.dataset.modalAltZh : button.dataset.modalAltEn;
+          modalTrigger = button;
+          dialogImage.src = button.dataset.modalSrc ?? '';
           dialogImage.alt = alt ?? '';
           dialogCaption.textContent = alt ?? '';
           dialog.showModal();
+          document.body.classList.add('modal-open');
+          dialogClose?.focus();
         });
       });
-      dialog?.querySelector('[data-dialog-close]')?.addEventListener('click', () => dialog.close());
-      dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+      const closeDialog = () => dialog?.close();
+      dialogClose?.addEventListener('click', closeDialog);
+      dialog?.addEventListener('click', (event) => { if (event.target === dialog) closeDialog(); });
+      dialog?.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab' && dialogClose) {
+          event.preventDefault();
+          dialogClose.focus();
+        }
+      });
+      dialog?.addEventListener('close', () => {
+        document.body.classList.remove('modal-open');
+        dialogImage?.removeAttribute('src');
+        modalTrigger?.focus();
+      });
     </script>
   </body>
 </html>
