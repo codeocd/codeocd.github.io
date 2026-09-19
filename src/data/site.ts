@@ -79,15 +79,14 @@ export const profile = {
     en: 'Hefei, China',
     zh: '中国 · 合肥'
   },
-  portrait: null,
-  scholarId: '',
+  portrait: '/images/profile/haibiao-zhang.jpg',
+  scholarId: '_liHsuEAAAAJ',
   email: 'haibiaozhang@mail.ustc.edu.cn',
   links: {
-    github: null,
-    scholar: null,
-    supervisor: null,
-    cvEn: '/cv/haibiao-zhang-en.pdf',
-    cvZh: '/cv/haibiao-zhang-zh.pdf'
+    github: 'https://github.com/codeocd',
+    scholar: 'https://scholar.google.com/citations?user=_liHsuEAAAAJ&hl=zh-CN',
+    supervisor: 'http://www.ipp.cas.cn/bm/wb/rcdw/dsjj/202009/t20200907_365792.html',
+    wechat: '/images/contact/wechat-haibiao-zhang.png'
   }
 } as const;
 
@@ -102,8 +101,8 @@ export const about = {
     zh: '我是中国科学技术大学（USTC）计算机技术专业博士研究生。我的研究将机器学习与回旋管电子回旋共振加热（ECRH）系统相结合，把实验与仿真数据转化为更安全的运行边界、故障预测结果和工程决策依据。'
   },
   advisor: {
-    en: 'Advisor: Prof. Xiaojie Wang',
-    zh: '导师：王晓洁教授'
+    en: 'Advisor: Researcher Xiaojie Wang · Institute of Plasma Physics, Chinese Academy of Sciences',
+    zh: '导师：王晓洁研究员 · 中国科学院等离子体物理研究所'
   }
 } as const;
 
@@ -184,7 +183,7 @@ export const publicationPresentation: PublicationPresentation[] = [
     shortName: 'RF Oscillation Diagnosis',
     title: 'Data-driven fault diagnosis method for abnormal RF oscillation of gyrotrons',
     venueLabel: 'AIP Advances · 2024',
-    image: null,
+    image: '/images/publications/rf-oscillation-diagnosis.jpg',
     imageAlt: {
       en: 'Data-driven fault diagnosis for abnormal RF oscillation of gyrotrons',
       zh: '回旋管异常射频振荡的数据驱动故障诊断'
@@ -201,7 +200,7 @@ export const publicationPresentation: PublicationPresentation[] = [
     shortName: 'Robust Fault Prediction',
     title: 'Robust learning-based fault prediction method for gyrotron system',
     venueLabel: 'AIP Advances · 2025',
-    image: null,
+    image: '/images/publications/robust-fault-prediction.png',
     imageAlt: {
       en: 'Robust learning-based fault prediction for a gyrotron system',
       zh: '回旋管系统的鲁棒学习故障预测'
@@ -218,7 +217,7 @@ export const publicationPresentation: PublicationPresentation[] = [
     shortName: 'ECRH Launcher',
     title: 'Simulation analysis of the motion accuracy of the ECRH launcher steering mechanism based on ADAMS',
     venueLabel: 'Fusion Engineering and Design · 2025',
-    image: null,
+    image: '/images/publications/ecrh-launcher.png',
     imageAlt: {
       en: 'ADAMS-based simulation analysis of ECRH launcher steering accuracy',
       zh: '基于 ADAMS 的 ECRH 载荷转向机构运动精度仿真分析'
@@ -235,7 +234,7 @@ export const publicationPresentation: PublicationPresentation[] = [
     shortName: 'CFEDR ECCD',
     title: 'Investigation of electron cyclotron wave absorption and current drive in CFEDR conventional H-mode scenario',
     venueLabel: 'Plasma Science and Technology · 2025',
-    image: null,
+    image: '/images/publications/cfedr-eccd.png',
     imageAlt: {
       en: 'Electron cyclotron wave absorption and current drive analysis for CFEDR',
       zh: 'CFEDR 电子回旋波吸收与电流驱动分析'
@@ -268,7 +267,7 @@ export const ongoingResearch = [
       en: 'A validity-aware surrogate workflow that combines transport assessment, conditional beam-output prediction, and conformal screening under declared manufacturing and magnetic-field tolerances.',
       zh: '一种有效性感知的代理建模流程，结合输运评估、束流输出条件预测与保形筛选，在给定制造和磁场公差下支持电子枪设计判断。'
     },
-    image: null
+    image: '/images/publications/twcs.png'
   }
 ] as const;
 
@@ -287,7 +286,7 @@ export const education: TimelineEntry[] = [
       en: 'Research focus: AI-driven modeling and fault prediction for gyrotron-based heating and current-drive systems · Hefei, China',
       zh: '研究方向：基于人工智能的回旋管加热与电流驱动系统建模及故障预测 · 中国合肥'
     },
-    logo: null,
+    logo: '/images/institutions/ustc.png',
     logoAlt: 'USTC',
     secondaryLogo: null,
     secondaryLogoAlt: null,
@@ -307,7 +306,7 @@ export const education: TimelineEntry[] = [
       en: 'GPA 3.79/4.00 · Rank 1/36 · Kunming, China',
       zh: 'GPA 3.79/4.00 · 专业排名 1/36 · 中国昆明'
     },
-    logo: null,
+    logo: '/images/institutions/swfu.png',
     logoAlt: 'SWFU',
     secondaryLogo: null,
     secondaryLogoAlt: null,
@@ -323,14 +322,14 @@ export const experience: TimelineEntry[] = [
       zh: '电子枪参数与运行边界的数据驱动优化'
     },
     role: {
-      en: 'Research project · Institute of Plasma Physics, Chinese Academy of Sciences · Advisor: Prof. Xiaojie Wang',
-      zh: '科研项目 · 中国科学院等离子体物理研究所 · 导师：王晓洁教授'
+      en: 'Research project · Institute of Plasma Physics, Chinese Academy of Sciences · Advisor: Researcher Xiaojie Wang',
+      zh: '科研项目 · 中国科学院等离子体物理研究所 · 导师：王晓洁研究员'
     },
     description: {
-      en: 'Developed AI models for safe operating boundaries, combined sensitivity analysis with targeted sampling to reduce 3D charged-particle simulation cost by about 50%, and translated predictions into engineering constraints. The work also introduced the TWCS tolerance-aware screening framework.',
-      zh: '构建安全运行边界人工智能模型，结合敏感性分析与定向采样将三维带电粒子仿真成本降低约 50%，并将模型预测转化为工程约束；同时提出 TWCS 公差感知设计筛选框架。'
+      en: 'Developed AI models for safe operating boundaries, combined sensitivity analysis with targeted sampling to improve charged-particle simulation efficiency, and translated predictions into engineering constraints. The work also introduced the TWCS tolerance-aware screening framework.',
+      zh: '构建安全运行边界人工智能模型，结合敏感性分析与定向采样提高带电粒子仿真效率，并将模型预测转化为工程约束；同时提出 TWCS 公差感知设计筛选框架。'
     },
-    logo: null,
+    logo: '/images/institutions/ipp-cas.png',
     logoAlt: 'IPP CAS',
     href: null
   },
@@ -341,14 +340,14 @@ export const experience: TimelineEntry[] = [
       zh: '回旋管运行参数故障预测'
     },
     role: {
-      en: 'Research project · Institute of Plasma Physics, Chinese Academy of Sciences · Advisor: Prof. Xiaojie Wang',
-      zh: '科研项目 · 中国科学院等离子体物理研究所 · 导师：王晓洁教授'
+      en: 'Research project · Institute of Plasma Physics, Chinese Academy of Sciences · Advisor: Researcher Xiaojie Wang',
+      zh: '科研项目 · 中国科学院等离子体物理研究所 · 导师：王晓洁研究员'
     },
     description: {
-      en: 'Curated more than 22,000 operational configurations and designed Transformer-based and ensemble models for time-series prediction and fault-state estimation. The resulting work supported publications in AIP Advances.',
-      zh: '整理 22,000 余条运行配置数据，设计基于 Transformer 与集成学习的时间序列预测和故障状态估计模型，相关成果发表于《AIP Advances》。'
+      en: 'Curated gyrotron operational data and designed Transformer-based and ensemble models for time-series prediction and fault-state estimation. The resulting work supported publications in AIP Advances.',
+      zh: '整理回旋管运行配置数据，设计基于 Transformer 与集成学习的时间序列预测和故障状态估计模型，相关成果发表于《AIP Advances》。'
     },
-    logo: null,
+    logo: '/images/institutions/ipp-cas.png',
     logoAlt: 'IPP CAS',
     href: null
   },
@@ -373,8 +372,8 @@ export const experience: TimelineEntry[] = [
   {
     period: 'Sep 2022–Present',
     organization: {
-      en: 'ECRH System Experimental Operation (CRAFT Fusion Reactor)',
-      zh: 'ECRH 系统实验运行（CRAFT 聚变堆）'
+      en: 'ECRH System Experimental Operation',
+      zh: 'ECRH 系统实验运行'
     },
     role: {
       en: 'Experimental operation and reliability analysis',
@@ -384,8 +383,8 @@ export const experience: TimelineEntry[] = [
       en: 'Participated in ECRH installation, commissioning, operation, data collection, fault investigation, and technical test reporting.',
       zh: '参与 ECRH 系统安装、调试、运行、实验数据采集、故障现象分析和技术测试报告编制。'
     },
-    logo: null,
-    logoAlt: 'CRAFT',
+    logo: '/images/institutions/ipp-cas.png',
+    logoAlt: 'IPP CAS',
     href: null
   },
   {
@@ -408,13 +407,23 @@ export const experience: TimelineEntry[] = [
   }
 ];
 
-export const openSource = [] as const;
+export const openSource = [
+  {
+    name: 'senpai-skill',
+    href: 'https://github.com/zhang-haichao/senpai-skill',
+    language: 'Core Contributor',
+    description: {
+      en: 'Core Contributor · A reusable skill project for structured AI-assisted workflows.',
+      zh: '核心贡献者 · 面向结构化 AI 辅助工作流的可复用技能项目。'
+    }
+  }
+] as const;
 
 export const intellectualProperty: IntellectualPropertyEntry[] = [
   {
     key: 'cn120029768b',
     kind: 'patent',
-    year: { en: 'Granted', zh: '已授权' },
+    year: { en: 'Granted 2026-03-10', zh: '2026-03-10 授权' },
     type: { en: 'Granted Invention Patent', zh: '已授权发明专利' },
     title: {
       en: 'Distributed Control and Dynamic Scheduling Method and System for ECRH Systems',
@@ -422,10 +431,10 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
     },
     number: 'CN 120029768 B',
     detail: {
-      en: 'Patent number recorded in the current CV; grant date and inventorship details are pending confirmation.',
-      zh: '当前简历记录的专利号；授权日期和发明人信息待确认。'
+      en: 'Patent holder: Hefei Institutes of Physical Science, Chinese Academy of Sciences.',
+      zh: '专利权人：中国科学院合肥物质科学研究院。'
     },
-    image: null,
+    image: '/images/ip/cn120029768b.png',
     imageAlt: {
       en: 'CN 120029768 B invention patent record',
       zh: 'CN 120029768 B 发明专利记录'
@@ -434,7 +443,7 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
   {
     key: 'cn121619724b',
     kind: 'patent',
-    year: { en: 'Granted', zh: '已授权' },
+    year: { en: 'Granted 2026-03-31', zh: '2026-03-31 授权' },
     type: { en: 'Granted Invention Patent', zh: '已授权发明专利' },
     title: {
       en: 'Fast Voltage Regulation Method and System for Gyrotrons Based on Long-Pulse Power Forbidden-Zone Prediction',
@@ -442,10 +451,10 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
     },
     number: 'CN 121619724 B',
     detail: {
-      en: 'Patent number recorded in the current CV; grant date and inventorship details are pending confirmation.',
-      zh: '当前简历记录的专利号；授权日期和发明人信息待确认。'
+      en: 'Patent holder: Hefei Institutes of Physical Science, Chinese Academy of Sciences.',
+      zh: '专利权人：中国科学院合肥物质科学研究院。'
     },
-    image: null,
+    image: '/images/ip/cn121619724b.png',
     imageAlt: {
       en: 'CN 121619724 B invention patent record',
       zh: 'CN 121619724 B 发明专利记录'
@@ -454,7 +463,7 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
   {
     key: 'software-2025sr1824848',
     kind: 'copyright',
-    year: { en: 'Registered', zh: '已登记' },
+    year: { en: 'Registered 2025-09-19', zh: '2025-09-19 登记' },
     type: { en: 'Software Copyright', zh: '计算机软件著作权' },
     title: {
       en: 'Gyrotron Operating-State Probability Prediction System V1.0',
@@ -462,10 +471,10 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
     },
     number: '2025SR1824848',
     detail: {
-      en: 'Registration number recorded in the current CV.',
-      zh: '登记号来自当前简历。'
+      en: 'Copyright holder: Hefei Institutes of Physical Science, Chinese Academy of Sciences.',
+      zh: '著作权人：中国科学院合肥物质科学研究院。'
     },
-    image: null,
+    image: '/images/ip/2025sr1824848.png',
     imageAlt: {
       en: 'Software copyright record 2025SR1824848',
       zh: '软件著作权登记记录 2025SR1824848'
@@ -474,7 +483,7 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
   {
     key: 'software-2020sr0059618',
     kind: 'copyright',
-    year: { en: 'Registered', zh: '已登记' },
+    year: { en: 'Registered 2020-01-13', zh: '2020-01-13 登记' },
     type: { en: 'Software Copyright', zh: '计算机软件著作权' },
     title: {
       en: 'Comprehensive Signal Detection and Analysis Software for Communication Equipment V1.0',
@@ -482,10 +491,10 @@ export const intellectualProperty: IntellectualPropertyEntry[] = [
     },
     number: '2020SR0059618',
     detail: {
-      en: 'Registration number recorded in the current CV.',
-      zh: '登记号来自当前简历。'
+      en: 'Completed and first published on 2019-11-26.',
+      zh: '开发完成及首次发表日期：2019-11-26。'
     },
-    image: null,
+    image: '/images/ip/2020sr0059618.png',
     imageAlt: {
       en: 'Software copyright record 2020SR0059618',
       zh: '软件著作权登记记录 2020SR0059618'
