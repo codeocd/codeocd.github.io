@@ -40,6 +40,7 @@ const requiredAssets = [
   'public/images/ip/2020sr0059618.png',
   'public/images/institutions/ustc.png',
   'public/images/institutions/swfu.png',
+  'public/images/institutions/ccteg-changzhou.png',
   'public/images/institutions/ipp-cas.png'
 ];
 

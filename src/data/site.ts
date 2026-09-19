@@ -365,8 +365,8 @@ export const experience: TimelineEntry[] = [
       en: 'Completed safety training and discussed large-model enablement for mine monitoring and control, lightweight inference, edge deployment, and vector encoding for heterogeneous monitoring data.',
       zh: '完成安全教育培训，并围绕矿山监测管控中的大模型赋能、模型轻量化、边缘部署和多源异构监测数据向量化编码开展技术交流。'
     },
-    logo: null,
-    logoAlt: 'CCTEG',
+    logo: '/images/institutions/ccteg-changzhou.png',
+    logoAlt: 'CCTEG Changzhou Research Institute',
     href: null
   },
   {
