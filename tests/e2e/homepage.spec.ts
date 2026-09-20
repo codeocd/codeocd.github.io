@@ -44,6 +44,9 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.getByRole('link', { name: 'Google Scholar', exact: true })).toBeVisible();
   await expect(page.locator('a[href="https://github.com/codeocd"]')).toBeVisible();
   await expect(page.locator('a[href*="t20200907_365792.html"]')).toBeVisible();
+  const volunteerPhoto = page.locator('#experience-education .timeline-photo');
+  await expect(volunteerPhoto).toHaveCount(1);
+  await expect(volunteerPhoto.locator('img')).toHaveAttribute('src', '/images/experience/science-popularization-volunteer.png');
   await expect(page.locator('body')).not.toContainText('CRAFT');
   await expect(page.locator('body')).not.toContainText('Haichao Zhang');
 

@@ -256,11 +256,10 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
               <article class="timeline-item reveal">
                 <div class="institution-logos">
                   {item.logo && <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" />}
-                </div>
-                <div>
                   {item.image && <button
-                    class="timeline-figure"
+                    class="timeline-photo"
                     type="button"
+                    data-modal-open
                     data-modal-src={item.image}
                     data-modal-alt-en={item.imageAlt?.en ?? ''}
                     data-modal-alt-zh={item.imageAlt?.zh ?? ''}
@@ -268,6 +267,8 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   >
                     <img src={item.image} alt={item.imageAlt?.en ?? ''} data-alt-en={item.imageAlt?.en ?? ''} data-alt-zh={item.imageAlt?.zh ?? ''} loading="lazy" />
                   </button>}
+                </div>
+                <div>
                   <time>{item.period}</time>
                   <h4>
                     {item.href?.startsWith('http')
