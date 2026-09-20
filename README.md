@@ -2,7 +2,7 @@
 
 张海彪的中英双语学术主页，使用 Astro 构建并发布在 GitHub Pages：
 
-<https://codeocd.github.io>
+<https://zhanghaibiao.loc.cc>
 
 页面首次访问默认显示 English，可在右上角切换中文，语言选择会保存在本地浏览器中。公开内容包括面向 gyrotron 与 fusion 工程系统的人工智能研究、经历与教育、已发表论文、AAAI 2027 在审工作、开源贡献、知识产权、技能和荣誉。Google Scholar、GitHub、邮箱和微信均从个人资料区访问。
 
@@ -38,6 +38,8 @@ npm run test:all
 
 Google Scholar 仅作为外部个人资料链接使用。仓库不启用论文或引用数的计划同步，也不提供简历下载。
 
+主页域名：<https://zhanghaibiao.loc.cc>。GitHub Pages 自定义域名由 `public/CNAME` 配置；还需要在域名服务商 DNS 后台为该域名添加指向 GitHub Pages 的记录。
+
 ## 部署
 
-推送 `main` 分支后，`.github/workflows/pages.yml` 会运行完整测试门禁并发布 `dist/` 到 GitHub Pages。Astro 的 canonical 站点固定为 `https://codeocd.github.io`。
+推送 `main` 分支后，`.github/workflows/pages.yml` 会运行完整测试门禁并发布 `dist/` 到 GitHub Pages。Astro 的 canonical 站点固定为 `https://zhanghaibiao.loc.cc`。

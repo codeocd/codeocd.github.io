@@ -39,6 +39,8 @@ export type TimelineEntry = {
   degree?: LocalizedText;
   note?: LocalizedText;
   description?: LocalizedText;
+  image?: string | null;
+  imageAlt?: LocalizedText;
   logo: string | null;
   logoAlt: string;
   secondaryLogo?: string | null;
@@ -400,6 +402,11 @@ export const experience: TimelineEntry[] = [
     description: {
       en: 'Organized science activities for more than 1,000 primary and secondary school students, completed 300+ volunteer hours, and received Outstanding Volunteer and USTC One-Star Volunteer recognition.',
       zh: '面向 1,000 余名中小学生组织科普活动，累计志愿服务 300 余小时，获“优秀志愿者”和中国科学技术大学“一星志愿者”荣誉。'
+    },
+    image: '/images/experience/science-popularization-volunteer.png',
+    imageAlt: {
+      en: 'Science popularization volunteer activity',
+      zh: '科普志愿服务活动'
     },
     logo: null,
     logoAlt: 'Volunteer service',

@@ -35,7 +35,7 @@ test.beforeEach(async ({ page }) => {
 
 test('renders the approved English profile and public sections by default', async ({ page, isMobile }) => {
   await expect(page).toHaveTitle('Haibiao Zhang');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://codeocd.github.io/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://zhanghaibiao.loc.cc/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.locator('.profile-identity').getByRole('heading')).toContainText('Haibiao Zhang');
   await expect(page.locator('.profile-avatar')).toHaveAttribute('src', '/images/profile/haibiao-zhang.jpg');
@@ -127,6 +127,7 @@ test('opens publication and certificate images and closes with button and backdr
   const image = dialog.locator('[data-dialog-image]');
   const publicationTrigger = page.locator('#publications [data-modal-open]').first();
 
+  await publicationTrigger.scrollIntoViewIfNeeded();
   await publicationTrigger.click();
   await expect(image).toHaveAttribute('src', '/images/publications/rf-oscillation-diagnosis.jpg');
   await dialog.getByRole('button', { name: 'Close preview' }).click();

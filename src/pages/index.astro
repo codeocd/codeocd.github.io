@@ -258,6 +258,16 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
                   {item.logo && <img src={item.logo} alt={item.logoAlt} width="76" height="76" loading="lazy" />}
                 </div>
                 <div>
+                  {item.image && <button
+                    class="timeline-figure"
+                    type="button"
+                    data-modal-src={item.image}
+                    data-modal-alt-en={item.imageAlt?.en ?? ''}
+                    data-modal-alt-zh={item.imageAlt?.zh ?? ''}
+                    aria-label="Enlarge experience image"
+                  >
+                    <img src={item.image} alt={item.imageAlt?.en ?? ''} data-alt-en={item.imageAlt?.en ?? ''} data-alt-zh={item.imageAlt?.zh ?? ''} loading="lazy" />
+                  </button>}
                   <time>{item.period}</time>
                   <h4>
                     {item.href?.startsWith('http')

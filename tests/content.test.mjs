@@ -198,7 +198,7 @@ test('public deployment does not include unconfirmed template identity or legacy
   const config = await read('astro.config.mjs');
   const page = await read('src/pages/index.astro');
   const readme = await read('README.md');
-  assert.match(config, /site:\s*'https:\/\/codeocd\.github\.io'/);
-  assert.match(readme, /https:\/\/codeocd\.github\.io/);
+  assert.match(config, /site:\s*'https:\/\/zhanghaibiao\.loc\.cc'/);
+  assert.match(readme, /https:\/\/zhanghaibiao\.loc\.cc/);
   assert.doesNotMatch(`${config}\n${page}\n${readme}`, /zhang-haichao\.github\.io|Haichao-Zhang-academic-homepage/i);
 });
