@@ -102,6 +102,19 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         if (stored === 'zh') document.documentElement.dataset.uiLanguage = 'zh';
       } catch {}
     </script>
+    <script is:inline>
+      window.goatcounter = {
+        no_onload: navigator.doNotTrack === '1',
+        no_events: true
+      };
+    </script>
+    <script
+      is:inline
+      data-goatcounter="https://zhanghaibiao.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.v5.js"
+      crossorigin="anonymous"
+    ></script>
     <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
     <title>{profile.name.en}</title>
   </head>
