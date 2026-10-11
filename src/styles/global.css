@@ -5,7 +5,7 @@
   --rule: #d6dfdb;
   --link: #0e6570;
   --link-dark: #08454d;
-  --paper: #fbfaf6;
+  --paper: #ffffff;
   --masthead-height: 66px;
   --page-width: 1200px;
   --sidebar-width: 230px;
@@ -23,9 +23,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background:
-    linear-gradient(180deg, rgba(214, 231, 224, 0.22), transparent 22rem),
-    var(--paper);
+  background: var(--paper);
   font-family: "Aptos", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   font-size: 16px;
   line-height: 1.68;

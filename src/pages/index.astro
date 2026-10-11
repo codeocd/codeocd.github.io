@@ -36,7 +36,6 @@ const navItems = [
   { id: 'news', en: 'News', zh: '动态' },
   { id: 'experience-education', en: 'Experience & Education', zh: '经历与教育' },
   { id: 'publications', en: 'Publications', zh: '论文' },
-  { id: 'collaborative-publications', en: 'Collaborative Work', zh: '合作论文' },
   { id: 'ongoing-research', en: 'Ongoing Research', zh: '在研工作' },
   ...(availableOpenSource.length > 0 ? [{ id: 'opensource', en: 'Open Source', zh: '开源项目' }] : []),
   { id: 'intellectual-property', en: 'Intellectual Property', zh: '知识产权' },
@@ -77,6 +76,7 @@ const primaryAutoDiscoveredPublications = autoDiscoveredPublications
 const collaborativeAutoDiscoveredPublications = autoDiscoveredPublications
   .filter(({ publication }) => collaborativeTitles.has(publication.title));
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const encodedEmail = [...profile.email].reverse().join('');
 ---
 
 <!doctype html>
@@ -95,6 +95,20 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
     {siteUrl && <meta property="og:url" content={`${siteUrl}/`} />}
     {siteUrl && profile.portrait && <meta property="og:image" content={`${siteUrl}${profile.portrait}`} />}
     {siteUrl && <link rel="canonical" href={`${siteUrl}/`} />}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: profile.name.en,
+      alternateName: profile.name.zh,
+      url: siteUrl || undefined,
+      jobTitle: profile.role.en,
+      affiliation: {
+        '@type': 'CollegeOrUniversity',
+        name: 'University of Science and Technology of China'
+      },
+      knowsAbout: researchThemes.map((theme) => theme.title.en),
+      sameAs: [profile.links.scholar, profile.links.github].filter(Boolean)
+    })} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       try {
@@ -185,7 +199,12 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
             </li>
             <li>
               <span class="profile-icon" aria-hidden="true">MAIL</span>
-              <a href={`mailto:${profile.email}`}>{profile.email}</a>
+              <button
+                class="profile-link-button"
+                type="button"
+                data-email-reveal
+                data-email-encoded={encodedEmail}
+              ><span data-lang="en">Reveal email</span><span data-lang="zh">显示邮箱</span></button>
             </li>
             {profile.links.scholar && <li><span class="profile-icon" aria-hidden="true">GS</span><a href={profile.links.scholar} target="_blank" rel="noreferrer">Google Scholar</a></li>}
             {profile.links.github && <li><span class="profile-icon" aria-hidden="true">GH</span><a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a></li>}
@@ -213,7 +232,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
       <article class="academic-main">
         <section class="content-section about-section reveal" id="about" aria-labelledby="about-title">
-          <h1 id="about-title"><span data-lang="en">About Me</span><span data-lang="zh">关于我</span></h1>
+          <h1 id="about-title"><span data-lang="en">👋 About Me</span><span data-lang="zh">👋 关于我</span></h1>
           <p><span data-lang="en">{about.body.en}</span><span data-lang="zh">{about.body.zh}</span></p>
           <p class="profile-advisor"><span data-lang="en">{about.advisor.en}</span><span data-lang="zh">{about.advisor.zh}</span>{profile.links.supervisor && <a href={profile.links.supervisor} target="_blank" rel="noreferrer"> ↗</a>}</p>
           <p><span data-lang="en">{profile.statement.en}</span><span data-lang="zh">{profile.statement.zh}</span></p>
@@ -229,7 +248,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section reveal" id="news" aria-labelledby="news-title">
-          <h2 id="news-title"><span data-lang="en">News</span><span data-lang="zh">近期动态</span></h2>
+          <h2 id="news-title"><span data-lang="en">🔥 News</span><span data-lang="zh">🔥 近期动态</span></h2>
           <ul class="news-list">
             {news.map((item) => (
               <li>
@@ -243,7 +262,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="experience-education" aria-labelledby="journey-title">
-          <h2 id="journey-title" class="reveal"><span data-lang="en">Experience & Education</span><span data-lang="zh">工作与教育经历</span></h2>
+          <h2 id="journey-title" class="reveal"><span data-lang="en">🧭 Experience &amp; Education</span><span data-lang="zh">🧭 工作与教育经历</span></h2>
 
           <h3 class="subsection-title reveal"><span data-lang="en">Education</span><span data-lang="zh">教育经历</span></h3>
           <div class="timeline-list education-list">
@@ -298,7 +317,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
         <section class="content-section" id="publications" aria-labelledby="publications-title">
           <div class="section-heading reveal">
-            <h2 id="publications-title"><span data-lang="en">Selected Publications</span><span data-lang="zh">代表性论文</span></h2>
+            <h2 id="publications-title"><span data-lang="en">📚 Publications</span><span data-lang="zh">📚 论文</span></h2>
             {profile.links.scholar && <a href={profile.links.scholar} target="_blank" rel="noreferrer">
               <span data-lang="en">Google Scholar profile</span><span data-lang="zh">Google Scholar 主页</span> ↗
             </a>}
@@ -416,18 +435,6 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
               </div>
             </article>
           ))}
-        </section>
-
-        <section class="content-section" id="collaborative-publications" aria-labelledby="collaborative-title">
-          <div class="section-heading reveal">
-            <div>
-              <h2 id="collaborative-title"><span data-lang="en">Collaborative Work</span><span data-lang="zh">合作论文</span></h2>
-              <p class="section-note">
-                <span data-lang="en">Research contributions developed through interdisciplinary collaboration.</span>
-                <span data-lang="zh">跨方向合作完成的研究成果。</span>
-              </p>
-            </div>
-          </div>
 
           {collaborativeCuratedPublications.map(({ publication, presentation, figure }) => (
             <article class:list={['paper-box', 'publication-paper', 'reveal', !figure && 'no-figure']} data-publication-title={publication.title}>
@@ -511,7 +518,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         <section class="content-section" id="ongoing-research" aria-labelledby="ongoing-title">
           <div class="section-heading reveal">
             <div>
-              <h2 id="ongoing-title"><span data-lang="en">Ongoing Research</span><span data-lang="zh">在研工作</span></h2>
+              <h2 id="ongoing-title"><span data-lang="en">🔬 Ongoing Research</span><span data-lang="zh">🔬 在研工作</span></h2>
               <p class="section-note">
                 <span data-lang="en">Submitted and early-stage work is intentionally introduced only at a high level.</span>
                 <span data-lang="zh">为避免泄露尚未发表的研究思路，此处仅提供概括性介绍。</span>
@@ -544,7 +551,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         {availableOpenSource.length > 0 && <section class="content-section" id="opensource" aria-labelledby="opensource-title">
-          <h2 id="opensource-title" class="reveal"><span data-lang="en">Open Source</span><span data-lang="zh">开源项目</span></h2>
+          <h2 id="opensource-title" class="reveal"><span data-lang="en">💻 Open Source</span><span data-lang="zh">💻 开源项目</span></h2>
           <div class="project-list">
             {availableOpenSource.map((project) => (
               <a class="project-item reveal" href={project.href} target="_blank" rel="noreferrer">
@@ -559,7 +566,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>}
 
         <section class="content-section" id="intellectual-property" aria-labelledby="ip-title">
-          <h2 id="ip-title" class="reveal"><span data-lang="en">Intellectual Property</span><span data-lang="zh">知识产权</span></h2>
+          <h2 id="ip-title" class="reveal"><span data-lang="en">📜 Intellectual Property</span><span data-lang="zh">📜 知识产权</span></h2>
           <p class="ip-summary reveal">
             <span data-lang="en">{intellectualProperty.filter((item) => item.kind === 'patent').length} invention patents and {intellectualProperty.filter((item) => item.kind === 'copyright').length} software copyrights.</span>
             <span data-lang="zh">{intellectualProperty.filter((item) => item.kind === 'patent').length} 项发明专利与 {intellectualProperty.filter((item) => item.kind === 'copyright').length} 项软件著作权。</span>
@@ -596,7 +603,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="skills" aria-labelledby="skills-title">
-          <h2 id="skills-title" class="reveal"><span data-lang="en">Skills</span><span data-lang="zh">技能</span></h2>
+          <h2 id="skills-title" class="reveal"><span data-lang="en">🛠️ Skills</span><span data-lang="zh">🛠️ 技能</span></h2>
           <div class="skills-list">
             {skills.map((skill) => (
               <article class="skill-item reveal">
@@ -608,7 +615,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
         </section>
 
         <section class="content-section" id="awards" aria-labelledby="awards-title">
-          <h2 id="awards-title" class="reveal"><span data-lang="en">Selected Awards</span><span data-lang="zh">部分荣誉</span></h2>
+          <h2 id="awards-title" class="reveal"><span data-lang="en">🏆 Selected Awards</span><span data-lang="zh">🏆 部分荣誉</span></h2>
           <ul class="award-list">
             {awards.map((award) => (
               <li class="reveal">
@@ -691,6 +698,16 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
       navLinks.forEach((link) => {
         const section = document.getElementById(link.dataset.navLink ?? '');
         if (section) navObserver.observe(section);
+      });
+
+      const emailReveal = document.querySelector<HTMLButtonElement>('[data-email-reveal]');
+      emailReveal?.addEventListener('click', () => {
+        const email = [...(emailReveal.dataset.emailEncoded ?? '')].reverse().join('');
+        const link = document.createElement('a');
+        link.href = `mailto:${email}`;
+        link.textContent = email;
+        emailReveal.replaceWith(link);
+        link.focus();
       });
 
       const dialog = document.querySelector<HTMLDialogElement>('#media-dialog');

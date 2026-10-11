@@ -40,7 +40,11 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.locator('.profile-identity').getByRole('heading')).toContainText('Haibiao Zhang');
   await expect(page.locator('.profile-avatar')).toHaveAttribute('src', '/images/profile/haibiao-zhang.jpg');
   await expect(page.getByRole('link', { name: /Download CV|下载简历/ })).toHaveCount(0);
+  const emailTrigger = page.getByRole('button', { name: /Reveal email|显示邮箱/ });
+  await expect(emailTrigger).toBeVisible();
+  await emailTrigger.click();
   await expect(page.locator('a[href="mailto:haibiaozhang@mail.ustc.edu.cn"]')).toBeVisible();
+  await expect(page.locator('a[href="mailto:haibiaozhang@mail.ustc.edu.cn"]')).toBeFocused();
   await expect(page.getByRole('link', { name: 'Google Scholar', exact: true })).toBeVisible();
   await expect(page.locator('a[href="https://github.com/codeocd"]')).toBeVisible();
   await expect(page.locator('a[href*="t20200907_365792.html"]')).toBeVisible();
@@ -50,8 +54,7 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.locator('body')).not.toContainText('CRAFT');
   await expect(page.locator('body')).not.toContainText('Haichao Zhang');
 
-  await expect(page.locator('#publications .publication-paper')).toHaveCount(1);
-  await expect(page.locator('#collaborative-publications .publication-paper')).toHaveCount(3);
+  await expect(page.locator('#publications .publication-paper')).toHaveCount(4);
   await expect(page.locator('#ongoing-research .ongoing-item')).toHaveCount(1);
   await expect(page.locator('#ongoing-research')).toContainText('AAAI 2027 · Under Review');
   await expect(page.locator('#intellectual-property .ip-item')).toHaveCount(4);
@@ -175,7 +178,7 @@ test('reduced-motion users receive visible content without delayed transforms', 
 test('publication and timeline sections appear in the intended order', async ({ page }) => {
   const positions = await page.evaluate(() => {
     const ids = [
-      'news', 'experience-education', 'publications', 'collaborative-publications',
+      'news', 'experience-education', 'publications',
       'ongoing-research', 'opensource', 'intellectual-property', 'skills', 'awards'
     ];
     return ids.map((id) => document.getElementById(id)?.offsetTop ?? -1);

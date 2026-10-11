@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://zhanghaibiao.loc.cc/sitemap.xml
