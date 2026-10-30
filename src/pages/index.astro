@@ -187,13 +187,13 @@ const encodedEmail = [...profile.email].reverse().join('');
         </div>
 
         <div class="profile-details reveal">
-          <p class="profile-bio">
-            <span data-lang="en">{profile.headline.en}</span>
-            <span data-lang="zh">{profile.headline.zh}</span>
-          </p>
           <p class="profile-availability">
             <span data-lang="en">{profile.availability.en}</span>
             <span data-lang="zh">{profile.availability.zh}</span>
+          </p>
+          <p class="profile-bio profile-research-tagline">
+            <span data-lang="en">{profile.researchTagline.en}</span>
+            <span data-lang="zh">{profile.researchTagline.zh}</span>
           </p>
 
           <ul class="profile-links">

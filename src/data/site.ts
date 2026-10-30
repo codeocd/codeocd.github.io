@@ -73,6 +73,10 @@ export const profile = {
     en: 'Data-driven AI for gyrotron and fusion engineering systems.',
     zh: '面向回旋管与聚变工程系统的数据驱动人工智能。'
   },
+  researchTagline: {
+    en: 'AI4Fusion',
+    zh: 'AI4Fusion'
+  },
   availability: {
     en: 'Expected to graduate with a Ph.D. in 2027 and currently seeking full-time opportunities. Feel free to get in touch.',
     zh: '预计2027年博士毕业，目前正在寻求全职机会。欢迎联系交流。'

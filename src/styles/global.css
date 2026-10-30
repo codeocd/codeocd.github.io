@@ -276,11 +276,22 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 }
 
 .profile-availability {
-  margin: -0.35rem 0 1rem;
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0.8rem;
   color: var(--link-dark);
-  font-size: 0.88rem;
-  font-weight: 600;
+  background: rgba(14, 101, 112, 0.08);
+  border-left: 3px solid var(--link);
+  border-radius: 0 7px 7px 0;
+  font-size: 0.9rem;
+  font-weight: 700;
   line-height: 1.65;
+}
+
+.profile-research-tagline {
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.025em;
 }
 
 .profile-links,
@@ -1080,7 +1091,12 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   }
 
   .profile-availability {
+    grid-column: 1 / -1;
     margin: 0;
+  }
+
+  .profile-links {
+    grid-column: 1 / -1;
   }
 
   .research-interests {
