@@ -191,6 +191,10 @@ const encodedEmail = [...profile.email].reverse().join('');
             <span data-lang="en">{profile.headline.en}</span>
             <span data-lang="zh">{profile.headline.zh}</span>
           </p>
+          <p class="profile-availability">
+            <span data-lang="en">{profile.availability.en}</span>
+            <span data-lang="zh">{profile.availability.zh}</span>
+          </p>
 
           <ul class="profile-links">
             <li>
@@ -220,13 +224,6 @@ const encodedEmail = [...profile.email].reverse().join('');
               ><span data-lang="en">WeChat</span><span data-lang="zh">微信</span></button>
             </li>
           </ul>
-
-          <div class="research-interests">
-            <h3><span data-lang="en">Research Interests</span><span data-lang="zh">研究方向</span></h3>
-            <ul>
-              {researchThemes.map((theme) => <li><span data-lang="en">{theme.title.en}</span><span data-lang="zh">{theme.title.zh}</span></li>)}
-            </ul>
-          </div>
         </div>
       </aside>
 

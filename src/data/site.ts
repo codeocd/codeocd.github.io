@@ -73,6 +73,10 @@ export const profile = {
     en: 'Data-driven AI for gyrotron and fusion engineering systems.',
     zh: '面向回旋管与聚变工程系统的数据驱动人工智能。'
   },
+  availability: {
+    en: 'Expected to graduate with a Ph.D. in 2027 and currently seeking full-time opportunities. Feel free to get in touch.',
+    zh: '预计2027年博士毕业，目前正在寻求全职机会。欢迎联系交流。'
+  },
   statement: {
     en: 'I work on artificial intelligence for large engineering systems, with a focus on data-driven modeling, fault prediction, Transformer-based time-series analysis, and practical AI systems for nuclear-fusion engineering.',
     zh: '我的研究面向大型工程系统中的人工智能，聚焦数据驱动建模、故障预测、基于 Transformer 的时间序列分析，以及核聚变工程中的人工智能应用。'

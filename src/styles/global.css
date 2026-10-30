@@ -275,6 +275,14 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   line-height: 1.55;
 }
 
+.profile-availability {
+  margin: -0.35rem 0 1rem;
+  color: var(--link-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
 .profile-links,
 .research-interests ul {
   margin: 0;
@@ -1069,6 +1077,10 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   .profile-bio {
     grid-column: 1 / -1;
     margin-bottom: 0;
+  }
+
+  .profile-availability {
+    margin: 0;
   }
 
   .research-interests {
