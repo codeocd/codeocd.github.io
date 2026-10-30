@@ -166,7 +166,7 @@ export const news = [
       en: 'Presented an oral talk, “Tolerance-Aware Surrogate Modeling of Magnetron-Injection Electron Guns for Long-Pulse ECRH Gyrotrons,” at the IAEA Third Technical Meeting on Long-Pulse Operation of Fusion Devices.',
       zh: '在国际原子能机构（IAEA）第三届聚变装置长脉冲运行技术会议上作口头报告，报告题为《Tolerance-Aware Surrogate Modeling of Magnetron-Injection Electron Guns for Long-Pulse ECRH Gyrotrons》。'
     },
-    href: null
+    href: 'https://conferences.iaea.org/event/452/overview'
   },
   {
     date: '2026',
