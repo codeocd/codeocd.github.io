@@ -76,7 +76,6 @@ const primaryAutoDiscoveredPublications = autoDiscoveredPublications
 const collaborativeAutoDiscoveredPublications = autoDiscoveredPublications
   .filter(({ publication }) => collaborativeTitles.has(publication.title));
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-const encodedEmail = [...profile.email].reverse().join('');
 ---
 
 <!doctype html>
@@ -203,12 +202,7 @@ const encodedEmail = [...profile.email].reverse().join('');
             </li>
             <li>
               <span class="profile-icon" aria-hidden="true">MAIL</span>
-              <button
-                class="profile-link-button"
-                type="button"
-                data-email-reveal
-                data-email-encoded={encodedEmail}
-              ><span data-lang="en">Reveal email</span><span data-lang="zh">显示邮箱</span></button>
+              <a href={`mailto:${profile.email}`}>{profile.email}</a>
             </li>
             {profile.links.scholar && <li><span class="profile-icon" aria-hidden="true">GS</span><a href={profile.links.scholar} target="_blank" rel="noreferrer">Google Scholar</a></li>}
             {profile.links.github && <li><span class="profile-icon" aria-hidden="true">GH</span><a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a></li>}
@@ -704,16 +698,6 @@ const encodedEmail = [...profile.email].reverse().join('');
       navLinks.forEach((link) => {
         const section = document.getElementById(link.dataset.navLink ?? '');
         if (section) navObserver.observe(section);
-      });
-
-      const emailReveal = document.querySelector<HTMLButtonElement>('[data-email-reveal]');
-      emailReveal?.addEventListener('click', () => {
-        const email = [...(emailReveal.dataset.emailEncoded ?? '')].reverse().join('');
-        const link = document.createElement('a');
-        link.href = `mailto:${email}`;
-        link.textContent = email;
-        emailReveal.replaceWith(link);
-        link.focus();
       });
 
       const dialog = document.querySelector<HTMLDialogElement>('#media-dialog');

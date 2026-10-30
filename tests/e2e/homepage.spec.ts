@@ -40,11 +40,7 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.locator('.profile-identity').getByRole('heading')).toContainText('Haibiao Zhang');
   await expect(page.locator('.profile-avatar')).toHaveAttribute('src', '/images/profile/haibiao-zhang.jpg');
   await expect(page.getByRole('link', { name: /Download CV|下载简历/ })).toHaveCount(0);
-  const emailTrigger = page.getByRole('button', { name: /Reveal email|显示邮箱/ });
-  await expect(emailTrigger).toBeVisible();
-  await emailTrigger.click();
   await expect(page.locator('a[href="mailto:haibiaozhang@mail.ustc.edu.cn"]')).toBeVisible();
-  await expect(page.locator('a[href="mailto:haibiaozhang@mail.ustc.edu.cn"]')).toBeFocused();
   await expect(page.getByRole('link', { name: 'Google Scholar', exact: true })).toBeVisible();
   await expect(page.locator('a[href="https://github.com/codeocd"]')).toBeVisible();
   await expect(page.locator('a[href*="t20200907_365792.html"]')).toBeVisible();
