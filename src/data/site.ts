@@ -153,6 +153,22 @@ export const researchThemes = [
 
 export const news = [
   {
+    date: '2026.10.27',
+    text: {
+      en: 'A poster presentation was accepted for the 1st Fusion Energy Control Conference and the 5th Conference on AI Applications in Magnetic Confinement Fusion Control, hosted by the Institute of Plasma Physics, Chinese Academy of Sciences (ASIPP).',
+      zh: '海报展示入选中国科学院等离子体物理研究所主办的第一届核聚变能控制大会暨第五届人工智能在磁约束聚变控制应用会议。'
+    },
+    href: null
+  },
+  {
+    date: '2026.10.21',
+    text: {
+      en: 'Presented an oral talk, “Tolerance-Aware Surrogate Modeling of Magnetron-Injection Electron Guns for Long-Pulse ECRH Gyrotrons,” at the IAEA Third Technical Meeting on Long-Pulse Operation of Fusion Devices.',
+      zh: '在国际原子能机构（IAEA）第三届聚变装置长脉冲运行技术会议上作口头报告，报告题为《Tolerance-Aware Surrogate Modeling of Magnetron-Injection Electron Guns for Long-Pulse ECRH Gyrotrons》。'
+    },
+    href: null
+  },
+  {
     date: '2026',
     text: {
       en: 'TWCS, a tolerance-aware workflow for conformal screening of gyrotron electron-gun designs, is under review at AAAI 2027.',
