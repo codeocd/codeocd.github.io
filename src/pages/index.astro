@@ -250,7 +250,16 @@ const encodedEmail = [...profile.email].reverse().join('');
             {news.map((item) => (
               <li>
                 <time>{item.date}</time>
-                {item.href ? <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined}>
+                {'linkText' in item ? (
+                  <span>
+                    <span data-lang="en">
+                      {item.text.en.split(item.linkText.en)[0]}<a href={item.href} target="_blank" rel="noreferrer">{item.linkText.en}</a>{item.text.en.split(item.linkText.en)[1]}
+                    </span>
+                    <span data-lang="zh">
+                      {item.text.zh.split(item.linkText.zh)[0]}<a href={item.href} target="_blank" rel="noreferrer">{item.linkText.zh}</a>{item.text.zh.split(item.linkText.zh)[1]}
+                    </span>
+                  </span>
+                ) : item.href ? <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined}>
                   <span data-lang="en">{item.text.en}</span><span data-lang="zh">{item.text.zh}</span>
                 </a> : <span><span data-lang="en">{item.text.en}</span><span data-lang="zh">{item.text.zh}</span></span>}
               </li>
