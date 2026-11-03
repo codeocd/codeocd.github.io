@@ -444,6 +444,15 @@ export const experience: TimelineEntry[] = [
 
 export const openSource = [
   {
+    name: 'CCFA-rebuttal-skill',
+    href: 'https://github.com/codeocd/CCFA-rebuttal-skill',
+    language: 'Creator',
+    description: {
+      en: 'Creator · A CCF-A conference rebuttal assistant that parses reviewer comments, plans response strategy, validates character budgets, and searches conference-specific rules.',
+      zh: '创作者 · 面向 CCF-A 顶会 rebuttal 的 AI 技能，可解析审稿意见、规划回应策略、校验字符预算并检索会议规则。'
+    }
+  },
+  {
     name: 'senpai-skill',
     href: 'https://github.com/zhang-haichao/senpai-skill',
     language: 'Core Contributor',

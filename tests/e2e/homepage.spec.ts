@@ -57,10 +57,13 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.locator('#skills .skill-item')).toHaveCount(4);
 
   const projects = page.locator('#opensource .project-item');
-  await expect(projects).toHaveCount(1);
-  await expect(projects).toContainText('senpai-skill');
-  await expect(projects).toContainText('Core Contributor');
-  await expect(projects).toHaveAttribute('href', 'https://github.com/zhang-haichao/senpai-skill');
+  await expect(projects).toHaveCount(2);
+  await expect(projects.first()).toContainText('CCFA-rebuttal-skill');
+  await expect(projects.first()).toContainText('Creator');
+  await expect(projects.first()).toHaveAttribute('href', 'https://github.com/codeocd/CCFA-rebuttal-skill');
+  await expect(projects.nth(1)).toContainText('senpai-skill');
+  await expect(projects.nth(1)).toContainText('Core Contributor');
+  await expect(projects.nth(1)).toHaveAttribute('href', 'https://github.com/zhang-haichao/senpai-skill');
 
   await expectNoHorizontalOverflow(page);
   await expectLoadedImages(page);
