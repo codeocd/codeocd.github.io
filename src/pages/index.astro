@@ -2,8 +2,8 @@
 import '../styles/global.css';
 import {
   acceptedPublications,
-  about,
   awards,
+  collaborationTools,
   education,
   experience,
   intellectualProperty,
@@ -219,14 +219,48 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
             </li>
           </ul>
         </div>
+
+        <div class="visitor-map reveal" aria-label="Visitor map">
+          <script is:inline type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=ffffff&amp;w=a&amp;t=n&amp;d=8prDIHGlzaZVWdzUWhwcCSGHVUP4484DJuQV0ZVIISU"></script>
+        </div>
       </aside>
 
       <article class="academic-main">
         <section class="content-section about-section reveal" id="about" aria-labelledby="about-title">
           <h1 id="about-title"><span data-lang="en">👋 About Me</span><span data-lang="zh">👋 关于我</span></h1>
-          <p><span data-lang="en">{about.body.en}</span><span data-lang="zh">{about.body.zh}</span></p>
-          <p class="profile-advisor"><span data-lang="en">{about.advisor.en}</span><span data-lang="zh">{about.advisor.zh}</span>{profile.links.supervisor && <a href={profile.links.supervisor} target="_blank" rel="noreferrer"> ↗</a>}</p>
-          <p><span data-lang="en">{profile.statement.en}</span><span data-lang="zh">{profile.statement.zh}</span></p>
+          <p>
+            <span data-lang="en">
+              I am a Ph.D. candidate in <span class="about-keyword">💻 Computer Technology</span> at{' '}
+              <a class="about-entity-link" href="https://www.ustc.edu.cn/" target="_blank" rel="noreferrer"><img src="/images/institutions/ustc.png" alt="" width="20" height="20" />University of Science and Technology of China (USTC)</a>, supervised by{' '}
+              <a class="about-keyword" href={profile.links.supervisor} target="_blank" rel="noreferrer">👨‍🏫 Researcher Xiaojie Wang</a> at the{' '}
+              <a class="about-entity-link" href="http://www.ipp.cas.cn/" target="_blank" rel="noreferrer"><img src="/images/institutions/ipp-cas.png" alt="" width="20" height="20" />Institute of Plasma Physics, Chinese Academy of Sciences (ASIPP)</a>. My research focuses on <span class="about-keyword">⚛️ AI4Fusion</span>, especially <span class="about-keyword">📊 data-driven modeling</span>, <span class="about-keyword">🔍 fault prediction</span>, and <span class="about-keyword">⏱️ Transformer-based time-series analysis</span> for gyrotron and fusion engineering systems.
+            </span>
+            <span data-lang="zh">
+              我是<a class="about-entity-link" href="https://www.ustc.edu.cn/" target="_blank" rel="noreferrer"><img src="/images/institutions/ustc.png" alt="" width="20" height="20" />中国科学技术大学（USTC）</a><span class="about-keyword">💻 计算机技术</span>专业博士研究生，导师为<a class="about-entity-link" href="http://www.ipp.cas.cn/" target="_blank" rel="noreferrer"><img src="/images/institutions/ipp-cas.png" alt="" width="20" height="20" />中国科学院等离子体物理研究所（ASIPP）</a><a class="about-keyword" href={profile.links.supervisor} target="_blank" rel="noreferrer">👨‍🏫 王晓洁研究员</a>。我的研究方向是<span class="about-keyword">⚛️ AI4Fusion</span>，主要面向回旋管与聚变工程系统开展<span class="about-keyword">📊 数据驱动建模</span>、<span class="about-keyword">🔍 故障预测</span>和<span class="about-keyword">⏱️ 基于 Transformer 的时间序列分析</span>。
+            </span>
+          </p>
+          <p class="about-collaboration">
+            <span data-lang="en">
+              I also enjoy collaborating with{' '}
+              {collaborationTools.map((tool, index) => (
+                <>
+                  {index > 0 && (index === collaborationTools.length - 1 ? ' and ' : ', ')}
+                  <a class="about-tool-link" href={tool.href} target="_blank" rel="noreferrer"><img src={tool.icon} alt="" width="18" height="18" />{tool.name}</a>
+                </>
+              ))}{' '}
+              to explore ideas, refine code, and work through implementation details. They are my trusted partners in learning and research.
+            </span>
+            <span data-lang="zh">
+              我也喜欢与
+              {collaborationTools.map((tool, index) => (
+                <>
+                  {index > 0 && (index === collaborationTools.length - 1 ? ' 和 ' : '、')}
+                  <a class="about-tool-link" href={tool.href} target="_blank" rel="noreferrer"><img src={tool.icon} alt="" width="18" height="18" />{tool.name}</a>
+                </>
+              ))}
+              协作，一起探索想法、打磨代码并推进实现细节。它们是我学习与科研中的可靠伙伴。
+            </span>
+          </p>
 
           <div class="interest-strip" aria-label="Research themes">
             {researchThemes.map((theme) => (

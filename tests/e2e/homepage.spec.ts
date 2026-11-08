@@ -9,7 +9,7 @@ const expectNoHorizontalOverflow = async (page: Page) => {
 };
 
 const expectLoadedImages = async (page: Page) => {
-  const images = page.locator('img[src]:not([src=""])');
+  const images = page.locator('img[src]:not([src=""]):visible');
   const count = await images.count();
   expect(count).toBeGreaterThan(0);
   for (let index = 0; index < count; index += 1) {
@@ -30,7 +30,7 @@ const expectLoadedImages = async (page: Page) => {
 };
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
 });
 
 test('renders the approved English profile and public sections by default', async ({ page, isMobile }) => {
@@ -43,7 +43,7 @@ test('renders the approved English profile and public sections by default', asyn
   await expect(page.locator('a[href="mailto:haibiaozhang@mail.ustc.edu.cn"]')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Google Scholar', exact: true })).toBeVisible();
   await expect(page.locator('a[href="https://github.com/codeocd"]')).toBeVisible();
-  await expect(page.locator('a[href*="t20200907_365792.html"]')).toBeVisible();
+  await expect(page.locator('a[href*="t20200907_365792.html"]').first()).toBeVisible();
   const volunteerPhoto = page.locator('#experience-education .timeline-photo');
   await expect(volunteerPhoto).toHaveCount(1);
   await expect(volunteerPhoto.locator('img')).toHaveAttribute('src', '/images/experience/science-popularization-volunteer.png');

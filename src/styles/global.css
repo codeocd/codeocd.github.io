@@ -220,6 +220,22 @@ html[data-ui-language="zh"] [data-lang="zh"] {
   min-width: 0;
 }
 
+.visitor-map {
+  max-width: 320px;
+  margin: 1.5rem auto 0;
+  padding-top: 1.2rem;
+  overflow: hidden;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+
+.visitor-map img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
 .profile-card {
   display: grid;
 }
@@ -421,6 +437,32 @@ html[data-ui-language="zh"] [data-lang="zh"] {
 
 .about-section > p {
   max-width: 850px;
+}
+
+.about-keyword {
+  color: var(--link-dark);
+  font-weight: 700;
+}
+
+.about-entity-link,
+.about-tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-weight: 600;
+  vertical-align: baseline;
+}
+
+.about-entity-link img,
+.about-tool-link img {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  object-fit: contain;
+}
+
+.about-collaboration {
+  margin-top: 1rem;
 }
 
 .interest-strip {

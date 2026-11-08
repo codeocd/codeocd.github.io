@@ -116,6 +116,24 @@ export const about = {
   }
 } as const;
 
+export const collaborationTools = [
+  {
+    name: 'Claude Code',
+    href: 'https://www.anthropic.com/claude-code',
+    icon: '/images/tools/claude.svg'
+  },
+  {
+    name: 'Codex',
+    href: 'https://openai.com/codex/',
+    icon: '/images/tools/openai.svg'
+  },
+  {
+    name: 'DeepSeek',
+    href: 'https://www.deepseek.com/',
+    icon: '/images/tools/deepseek.svg'
+  }
+] as const;
+
 export const researchThemes = [
   {
     index: '01',
